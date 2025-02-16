@@ -1,0 +1,28 @@
+from faker import Faker
+
+fake = Faker()
+
+class Payloads:
+
+   auth= \
+    {
+        "login": "13579",
+        "password": "kcme12!.xYez"
+    }
+   print(auth)
+
+   change_password = \
+       {
+           "newPassword": "kcme12!.xYez",
+           "oldPassword": "kcme12!.xYez"
+       }
+   print(change_password)
+
+   refresh_token = \
+       {
+           "login": "13579",
+           "refreshToken": "string"
+       }
+   print(refresh_token)
+
+

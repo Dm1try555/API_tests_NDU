@@ -1,0 +1,9 @@
+venv
+.idea
+__pycache__
+.DS_Store
+README.md
+services.users
+tests.test_users.py
+conftest.py
+example.py
