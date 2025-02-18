@@ -8,5 +8,6 @@ RUN apk update && \
     rm allure-2.13.8.tgz
 
 WORKDIR /usr/workspace
+
 COPY ./requirements.txt /usr/workspace
 RUN pip install -r requirements.txt

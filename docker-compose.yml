@@ -12,7 +12,7 @@ services:
     working_dir: /usr/workspace
     environment:
       STAGE: prod
-      SUITE: account
+      PYTHONPATH: /usr/workspace
       API_TOKEN: ${API_TOKEN}
 
   report:
@@ -24,3 +24,4 @@ services:
       - ./:/usr/workspace
     command: /bin/sh -c "allure generate allure-results --clean -o allure-report"
     working_dir: /usr/workspace
+
