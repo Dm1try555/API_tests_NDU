@@ -11,7 +11,7 @@ class TestAccount(BaseTest):
     @allure.title("Create new account")
     def test_create_account(self):
         acc = self.api_account.create_account()
-        get = self.api_account.get_account() #acc.uuid
+        get = self.api_account.get_account()
 
 
 
