@@ -1,6 +1,8 @@
+import os
+from dotenv import load_dotenv
 
-
-HOST = "https://llc-cabinet-api-mwt.csd.ua/api/v1"
+load_dotenv()
+HOST = os.getenv("HOST")
 
 class Endpoints:
 
