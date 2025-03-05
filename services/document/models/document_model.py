@@ -147,7 +147,42 @@ class CopyDocumentModel(BaseModel):
         else:
             return value
 
+'''GET Audit Document'''
 
+class AuditDocumentItemModel(BaseModel):
+    id: int
+    createdBy: str
+    createDataTime: str
+    description: str
+
+    @field_validator("id", "description", "createDataTime", "createdBy")
+    def fields_are_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
+class AuditDocumentDataModel(BaseModel):
+    totalCount: int
+    items: list[AuditDocumentItemModel]
+
+    @field_validator("totalCount")
+    def total_count_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class AuditDocumentModel(BaseModel):
+    message: str
+    data: AuditDocumentDataModel
+    @field_validator("message")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
 
 
 

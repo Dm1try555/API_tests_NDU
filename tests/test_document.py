@@ -36,6 +36,12 @@ class TestDocument:
         assert copied_document_id == self.__class__.document_id + 1
         print(f"Original document ID: {self.__class__.document_id}, Copy ID: {copied_document_id}")
 
+    @allure.title("Audit document by ID")
+    def test_audit_document_by_id(self):
+        assert self.__class__.document_id is not None, "Документ не был создан"
+        model = self.api_document.audit_document_by_id(self.__class__.document_id)
+        assert model.message == "Дані отримано."
+
     @allure.title("Delete document by ID")
     def test_delete_document_by_id(self):
         assert self.__class__.document_id is not None, "Документ не был создан"

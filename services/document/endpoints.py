@@ -10,6 +10,7 @@ class Endpoints:
     get_document_by_id = lambda self, id: f"{HOST}/document/{id}"
     delete_document_by_id = lambda self, id: f"{HOST}/document/{id}"
     copy_document_by_id = lambda self, id: f"{HOST}/document/{id}/copy"
+    audit_document_by_id = lambda self, id: f"{HOST}/document/{id}/audit"
 
 
 

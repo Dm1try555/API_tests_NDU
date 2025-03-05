@@ -5,7 +5,7 @@ from utils.helper import Helper
 from services.document.endpoints import Endpoints
 from services.document.payloads import Payloads
 from services.document.models.document_model import CreateDocumentModel, DeleteDocumentModel, CheckDeleteDocumentModel, \
-    CopyDocumentModel #GetDocumentModel
+    CopyDocumentModel, AuditDocumentModel #GetDocumentModel
 
 
 class DocumentAPI(Helper):
@@ -52,6 +52,18 @@ class DocumentAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = CopyDocumentModel(**response.json())
+        return model
+
+    @allure.step("Audit document by ID")
+    def audit_document_by_id(self, id):
+        response = requests.get(
+            url=self.endpoints.audit_document_by_id(id),
+            headers=self.headers.basic,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = AuditDocumentModel(**response.json())
         return model
 
     @allure.step("Delete document by ID")
