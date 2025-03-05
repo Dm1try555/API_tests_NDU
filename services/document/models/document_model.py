@@ -88,7 +88,64 @@ class CheckDeleteDocumentModel(BaseModel):
             return value
 
 
+'''PUT Copy Document'''
 
+class CopyDocumentData(BaseModel):
+    id: int
+    name: str
+    documentType: str
+    documentDirection: str
+    documentStatus: str
+    documentNumber: Optional[str] = None
+    documentFromDate: Optional[str] = None
+    memberId: int
+    llcId: int
+    capitalShareAction: str
+    capitalShareLLCId: Optional[int] = None
+    capitalShareSize: Optional[str] = None
+    escrowAccountNumber: Optional[str] = None
+    escrowDocumentNumber: Optional[str] = None
+    escrowDocumentDate: Optional[str] = None
+    counterpartyIdentifyNumber: Optional[str] = None
+    counterpartyName: Optional[str] = None
+    counterpartyDocumentNumber: Optional[str] = None
+    counterpartyDocumentDate: Optional[str] = None
+    counterpartyDocumentUrl: Optional[str] = None
+    messageCdData: Optional[str] = None
+    messageCdTopic: Optional[str] = None
+    messageCdFileUrl: Optional[str] = None
+    countOfSignaturesForDocument: int
+    countOfStampsForDocument: int
+
+    @root_validator(pre=True)
+    def check_empty_fields(cls, values):
+        required_fields = [
+            "id", "name", "documentType", "documentDirection", "documentStatus",
+            "memberId", "llcId", "capitalShareAction", "countOfSignaturesForDocument", "countOfStampsForDocument"
+        ]
+        for field in required_fields:
+            if values.get(field) is None or (isinstance(values.get(field), str) and values.get(field).strip() == ""):
+                raise ValueError(f"Field '{field}' cannot be empty or None.")
+        return values
+
+    @field_validator("capitalShareLLCId", "capitalShareSize", "escrowAccountNumber", "escrowDocumentNumber",
+        "escrowDocumentDate", "counterpartyIdentifyNumber", "counterpartyName",
+        "counterpartyDocumentNumber", "counterpartyDocumentDate", "counterpartyDocumentUrl",
+        "messageCdData", "messageCdTopic", "messageCdFileUrl")
+    def check_optional_fields(cls, value, field):
+        if value == "" or value is None:
+            return None
+        return value
+
+class CopyDocumentModel(BaseModel):
+    message: str
+    data: CreateDocumentData
+    @field_validator("message")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
 
 
 
