@@ -52,8 +52,6 @@ class CreateDocumentData(BaseModel):
             return None
         return value
 
-
-
 class CreateDocumentModel(BaseModel):
     message: str
     data: CreateDocumentData
@@ -66,43 +64,53 @@ class CreateDocumentModel(BaseModel):
 
 
 
-'''Get Document'''
-
-class GetDocumentItemModel(BaseModel):
-    id: int
-    name: str
-    createDataTime: str
-    memberName: str
-    llcName: str
-    llcedrpou: str
-    documentStatus: str
-
-    @field_validator("id", "name", "createDataTime", "memberName", "llcName", "llcedrpou", "documentStatus")
-    def fields_are_valid(cls, value):
-        if value == "" or value is None:
-            raise ValueError("Field is empty")
-        else:
-            return value
 
 
-class GetDocumentDataModel(BaseModel):
-    totalCount: int
-    items: list[GetDocumentItemModel]
 
-    @field_validator("totalCount")
-    def total_count_is_valid(cls, value):
-        if value == "" or value is None:
-            raise ValueError("Field is empty")
-        else:
-            return value
 
-class GetDocumentModel(BaseModel):
-    message: str
-    data: GetDocumentDataModel
-    @field_validator("message")
-    def message_is_valid(cls, value):
-        if value == "" or value is None:
-            raise ValueError("Field is empty")
-        else:
-            return value
+
+
+
+
+
+
+# '''Get Document'''
+#
+# class GetDocumentItemModel(BaseModel):
+#     id: int
+#     name: str
+#     createDataTime: str
+#     memberName: str
+#     llcName: str
+#     llcedrpou: str
+#     documentStatus: str
+#
+#     @field_validator("id", "name", "createDataTime", "memberName", "llcName", "llcedrpou", "documentStatus")
+#     def fields_are_valid(cls, value):
+#         if value == "" or value is None:
+#             raise ValueError("Field is empty")
+#         else:
+#             return value
+#
+#
+# class GetDocumentDataModel(BaseModel):
+#     totalCount: int
+#     items: list[GetDocumentItemModel]
+#
+#     @field_validator("totalCount")
+#     def total_count_is_valid(cls, value):
+#         if value == "" or value is None:
+#             raise ValueError("Field is empty")
+#         else:
+#             return value
+#
+# class GetDocumentModel(BaseModel):
+#     message: str
+#     data: GetDocumentDataModel
+#     @field_validator("message")
+#     def message_is_valid(cls, value):
+#         if value == "" or value is None:
+#             raise ValueError("Field is empty")
+#         else:
+#             return value
 

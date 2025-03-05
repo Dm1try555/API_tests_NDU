@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.document.endpoints import Endpoints
 from services.document.payloads import Payloads
-from services.document.models.document_model import CreateDocumentModel, GetDocumentModel
+from services.document.models.document_model import CreateDocumentModel #GetDocumentModel
 
 
 class DocumentAPI(Helper):
@@ -29,16 +29,16 @@ class DocumentAPI(Helper):
         model = CreateDocumentModel(**response.json())
         return model
 
-    # @allure.step("Get user by ID")
-    # def get_user_by_id(self, id):
-    #     response = requests.get(
-    #         url=self.endpoints.get_admin_user_by_id(id),
-    #         headers=self.headers.basic,
-    #     )
-    #     print(response.json())
-    #     assert response.status_code == 200, response.json()
-    #     self.attach_response(response.json())
-    #     model = AdminUserModel(**response.json()["data"])
-    #     return model
+    @allure.step("Get document by ID")
+    def get_document_by_id(self, id):
+        response = requests.get(
+            url=self.endpoints.get_document_by_id(id),
+            headers=self.headers.basic,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = CreateDocumentModel(**response.json())
+        return model
 
 
