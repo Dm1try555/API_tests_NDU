@@ -1,5 +1,5 @@
 from typing import Optional, Union
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, constr
 
 
 class LlcItemModel(BaseModel):
@@ -8,7 +8,7 @@ class LlcItemModel(BaseModel):
     fullName: str
     edrpou: Union[str, int]
 
-    @field_validator("id", "name", "fullName", "edrpou")
+    @field_validator("id",  "edrpou") #delete name and fullname
     def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
