@@ -27,4 +27,16 @@ class TestDocument:
         model = self.api_document.get_document_by_id(self.__class__.document_id)
         assert model.data.id == self.__class__.document_id, "Ошибка: ID документа не совпадает!"
 
+    @allure.title("Delete document by ID")
+    def test_delete_document_by_id(self):
+        assert self.__class__.document_id is not None
+        model = self.api_document.delete_document_by_id(self.__class__.document_id)
+        assert model.message == "Документ видалено."
+
+    @allure.title("Check document by ID after delete")
+    def test_check_document_by_id_after_delete(self):
+        assert self.__class__.document_id is not None
+        model = self.api_document.get_document_by_id_after_delete(self.__class__.document_id)
+        assert model.Message == "DocumentNotFound"
+
 

@@ -63,7 +63,29 @@ class CreateDocumentModel(BaseModel):
             return value
 
 
+'''Delete Document'''
 
+class DeleteDocumentModel(BaseModel):
+    message: str
+    data: None
+    @field_validator("message")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+'''Check document after Delete'''
+
+class CheckDeleteDocumentModel(BaseModel):
+    Message: str
+    Data: None
+    @field_validator("Message")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
 
 
 
