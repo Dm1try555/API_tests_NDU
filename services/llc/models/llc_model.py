@@ -1,5 +1,5 @@
 from typing import Optional, Union
-from pydantic import BaseModel, field_validator, constr
+from pydantic import BaseModel, field_validator
 
 
 class LlcItemModel(BaseModel):
