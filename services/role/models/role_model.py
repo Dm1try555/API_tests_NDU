@@ -104,3 +104,42 @@ class GetRolePermissionsModel(BaseModel):
             raise ValueError("Field is empty")
         else:
             return value
+
+
+class GetRoleFiltersItem(BaseModel):
+    id: int
+    name: str
+    dependCodes: list[str]
+    description: str
+    createdDate: str
+
+    @field_validator("id", "name", "dependCodes", "description",
+                     "createdDate" )
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
+class GetRoleFiltersData(BaseModel):
+    totalCount: int
+    items: list[GetRoleFiltersItem]
+
+    @field_validator("totalCount")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class GetRoleFiltersModel(BaseModel):
+    message: Union[str, None]
+    data: GetRoleFiltersData
+
+    @field_validator("data")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value

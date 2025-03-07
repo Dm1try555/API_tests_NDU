@@ -5,7 +5,7 @@ from utils.helper import Helper
 from services.role.endpoints import Endpoints
 from services.role.payloads import Payloads
 from services.role.models.role_model import (CreateRoleModel, GetRoleModel, ChangeRoleModel,
-                                             GetRolePermissionsModel)
+                                             GetRolePermissionsModel, GetRoleFiltersModel)
 
 
 
@@ -97,50 +97,27 @@ class RoleAPI(Helper):
         return model
 
 
+    @allure.step("Get list of roles")
+    def get_role_by_filters(self, max_result_count=100, skip_count=0, sort_order="name",
+                                    filter_string=None, sort_order_type="Ascending", is_admin_part=True):
+        params = {
+            "maxResultCount": max_result_count,
+            "skipCount": skip_count,
+            "sortOrder": sort_order,
+            "sortOrderType": sort_order_type,
+            "isAdminPart": str(is_admin_part).lower(),
+            "filter_string": filter_string
+        }
+        response = requests.get(
+            url=self.endpoints.get_role,
+            headers=self.headers.basic,
+            params=params
+        )
 
+        print(response.url)
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
 
-    # @allure.step("Upload new file")
-    # def upload_new_file(self, file_path):
-    #     """API File Upload Method"""
-    #     with open(file_path, "rb") as file:
-    #         files = {"file": (file_path, file, "text/plain")}
-    #         response = requests.post(
-    #             url=self.endpoints.file_upload,
-    #             headers=self.headers.basic,
-    #             files=files
-    #         )
-    #
-    #     assert response.status_code == 200, response.json()
-    #     self.attach_response(response.json())
-    #     model = CreateFileModel(**response.json())
-    #     return model
-    #
-    # @allure.step("Get file by ID")
-    # def get_file_by_id(self, id):
-    #     """API File Upload Method"""
-    #     response = requests.get(
-    #         url=self.endpoints.get_file_by_id(id),
-    #         headers=self.headers.basic,
-    #     )
-    #     print(response.url)
-    #
-    # @allure.step("Delete file by ID")
-    # def delete_file_by_id(self, id):
-    #     response = requests.delete(
-    #         url=self.endpoints.delete_file_by_id(id),
-    #         headers=self.headers.basic,
-    #     )
-    #     print(response.url)
-    #     assert response.status_code == 204, response.json()
-    #
-    # @allure.step("Get file by ID after delete")
-    # def get_file_by_id_after_delete(self, id):
-    #     response = requests.get(
-    #         url=self.endpoints.get_file_by_id(id),
-    #         headers=self.headers.basic,
-    #     )
-    #     print(response.url)
-    #     assert response.status_code == 404, response.json()
-    #     self.attach_response(response.json())
-    #     model = CheckFileAfterDeleteModel(**response.json())
-    #     return model
+        model = GetRoleFiltersModel(**response.json())
+        return model
