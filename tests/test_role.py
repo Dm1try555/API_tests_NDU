@@ -17,13 +17,26 @@ class TestRole:
     def test_create_role(self):
         model = self.api_role.create_role()
         self.__class__.role_id = model.data.id
-        print(f"Созданный документ ID: {self.__class__.role_id}")
+        print(f"Create role ID: {self.__class__.role_id}")
 
     @allure.title("Check Role by ID")
     def test_get_role_by_id(self):
         assert self.__class__.role_id is not None
         model = self.api_role.get_role_by_id(self.__class__.role_id)
         assert model.data.id == self.__class__.role_id
+
+    @allure.title("Change Role by ID")
+    def test_change_role_by_id(self):
+        assert self.__class__.role_id is not None
+        model = self.api_role.change_role_by_id(self.__class__.role_id)
+        assert model.data.id == self.__class__.role_id
+
+    @allure.title("Check Role change by ID")
+    def test_get_role_change_by_id(self):
+        assert self.__class__.role_id is not None
+        model = self.api_role.get_role_by_id(self.__class__.role_id)
+        assert model.data.id == self.__class__.role_id
+
 
 
 

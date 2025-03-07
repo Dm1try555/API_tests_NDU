@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.role.endpoints import Endpoints
 from services.role.payloads import Payloads
-from services.role.models.role_model import CreateRoleModel, GetRoleModel
+from services.role.models.role_model import CreateRoleModel, GetRoleModel, ChangeRoleModel
 
 class RoleAPI(Helper):
 
@@ -41,6 +41,23 @@ class RoleAPI(Helper):
         self.attach_response(response.json())
         model = GetRoleModel(**response.json())
         return model
+
+
+    @allure.step("Change Role by ID")
+    def change_role_by_id(self, id):
+        response = requests.put(
+            url=self.endpoints.change_role_by_id(id),
+            headers=self.headers.basic,
+            json=self.payloads.change_role
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = ChangeRoleModel(**response.json())
+        return model
+
+
+
 
 
 

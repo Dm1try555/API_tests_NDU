@@ -64,6 +64,34 @@ class GetRoleModel(BaseModel):
 
 
 
+class ChangeRoleData(BaseModel):
+    id: int
+    name: str
+    isAdminPart: bool
+    dependCodes: list[str]
+    description: str
+    createdDate: str
+    permissions: list[str]
+
+    @field_validator("id", "name", "isAdminPart", "dependCodes", "description",
+                     "createdDate", "permissions" )
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
+class ChangeRoleModel(BaseModel):
+    message: str
+    data: CreateRoleData
+
+    @field_validator("message")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
 
 
 # class GetKepGenerateModel(BaseModel):
