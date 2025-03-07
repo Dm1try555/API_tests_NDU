@@ -4,7 +4,8 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.admin_user.endpoints import Endpoints
 from services.admin_user.payloads import Payloads
-from services.admin_user.models.adminuser_model import AdminUserModel, AdminUserAuditModel, AdminUserPassword
+from services.admin_user.models.adminuser_model import (CreateAdminUserModel, AdminUserAuditModel,
+                                                        AdminUserPassword, StatusModel)
 
 
 class AdminUserAPI(Helper):
@@ -26,7 +27,7 @@ class AdminUserAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = AdminUserModel(**response.json()["data"])  # Проверка, что респонс соответствует модели
+        model = CreateAdminUserModel(**response.json())
         return model
 
     @allure.step("Get user by ID")
@@ -38,7 +39,7 @@ class AdminUserAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = AdminUserModel(**response.json()["data"])
+        model = CreateAdminUserModel(**response.json())
         return model
 
 
@@ -54,10 +55,13 @@ class AdminUserAPI(Helper):
         assert response_json.get("data") is None
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
+        model = StatusModel(**response.json())
+        assert model.message == "Статус успішно змінено."
+        return model
 
 
     @allure.step("Check status = Active")
-    def get_status_active(self, id):  # Нужно передать id как параметр
+    def get_status_active(self, id):
         response = requests.get(
             url=self.endpoints.get_admin_user_by_id(id),
             headers=self.headers.basic,
@@ -65,7 +69,7 @@ class AdminUserAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = AdminUserModel(**response.json()["data"])
+        model = CreateAdminUserModel(**response.json())
         return model
 
     @allure.step("Create status = Inactive")
@@ -80,9 +84,12 @@ class AdminUserAPI(Helper):
         assert response_json.get("data") is None
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
+        model = StatusModel(**response.json())
+        assert model.message == "Статус успішно змінено."
+        return model
 
     @allure.step("Check status = Inactive")
-    def get_status_inactive(self, id):  # Нужно передать id как параметр
+    def get_status_inactive(self, id):
         response = requests.get(
             url=self.endpoints.get_admin_user_by_id(id),
             headers=self.headers.basic,
@@ -90,7 +97,7 @@ class AdminUserAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = AdminUserModel(**response.json()["data"])
+        model = CreateAdminUserModel(**response.json())
         return model
 
     @allure.step("Create status = NeedChangePassword")
@@ -105,9 +112,12 @@ class AdminUserAPI(Helper):
         assert response_json.get("data") is None
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
+        model = StatusModel(**response.json())
+        assert model.message == "Статус успішно змінено."
+        return model
 
     @allure.step("Check status = NeedChangePassword")
-    def get_status_need_change_password(self, id):  # Нужно передать id как параметр
+    def get_status_need_change_password(self, id):
         response = requests.get(
             url=self.endpoints.get_admin_user_by_id(id),
             headers=self.headers.basic,
@@ -115,7 +125,7 @@ class AdminUserAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = AdminUserModel(**response.json()["data"])
+        model = CreateAdminUserModel(**response.json())
         return model
 
 
@@ -133,7 +143,6 @@ class AdminUserAPI(Helper):
         return model
 
 
-
     @allure.step("Change password")
     def change_password_from_admin(self, id):
         response = requests.put(
@@ -144,5 +153,5 @@ class AdminUserAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = AdminUserPassword(**response.json())  # Проверка, что респонс соответствует модели
+        model = AdminUserPassword(**response.json())
         return model

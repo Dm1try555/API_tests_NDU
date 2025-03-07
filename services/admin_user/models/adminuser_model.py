@@ -1,9 +1,8 @@
 from typing import Optional, Union
 from pydantic import BaseModel, field_validator
 
-#Наш ответ: Проверяет наличие поле и его тип данных
-#Create user
-class AdminUserModel(BaseModel):
+
+class CreateAdminUserData(BaseModel):
     id: int
     firstName: str
     middleName: Optional[str] = None
@@ -12,12 +11,34 @@ class AdminUserModel(BaseModel):
     login: Union[str, int]
     phoneNumber: Optional[str] = None
     email: Optional[str] = None
-    isNotifyEmail: bool = False
+    isNotifyEmail: bool
     language: str
     status: str
 
 
     @field_validator("id", "firstName", "lastName", "identityNumber", "login", "isNotifyEmail", "language", "status")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class CreateAdminUserModel(BaseModel):
+    message: str
+    data: CreateAdminUserData
+
+    @field_validator("message", "data")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class StatusModel(BaseModel):
+    message: str
+    data: Union[str,None]
+
+    @field_validator("message")
     def fields_are_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")

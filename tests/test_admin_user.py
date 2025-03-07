@@ -16,14 +16,14 @@ class TestAdminUser:
     @allure.title("Create new user from admin portal")
     def user_id(self):
         user = self.api_adminuser.create_user_from_admin()
-        print(f"Создан пользователь с ID: {user.id}")
-        return user.id
+        print(f"Створений користувач з ID: {user.data.id}")
+        return user.data.id
 
     @allure.title("Test user creation")
     def test_create_user_from_admin(self, user_id):
-        assert user_id is not None, "Ошибка: ID пользователя не создан!"
+        assert user_id is not None, "Помилка: ID користувача не створений!"
         get_user_by_id = self.api_adminuser.get_user_by_id(user_id)
-        assert get_user_by_id.id == user_id, "Ошибка: ID пользователя не совпадает!"
+        assert get_user_by_id.data.id == user_id, "Помилка: ID користувача не збігається!"
 
     @allure.title("Check new user by ID")
     def test_check_create_user_by_id(self, user_id):

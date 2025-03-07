@@ -17,8 +17,6 @@ class Payloads:
     print(create_user_from_admin)
 
 
-
-
     change_password = \
         {
             "newPassword": fake.password(special_chars=True, digits=True, upper_case=True, lower_case=True),  # length=14,
