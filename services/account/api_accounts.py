@@ -4,7 +4,7 @@ from utils.helper import Helper
 from services.account.endpoints import Endpoints
 from services.account.payloads import Payloads
 from config.headers import Headers
-from services.account.models.account_model import AccountModel
+from services.account.models.account_model import CreateAccountModel
 
 
 class AccountAPI(Helper):
@@ -29,7 +29,8 @@ class AccountAPI(Helper):
         assert isinstance(response_json["message"], str), f"Очікувався рядок, отримано {type(response_json['message'])}"
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = AccountModel(**response.json()["data"])
+        model = CreateAccountModel(**response.json())
+        assert model.message == "Дані успішно оновлено."
         return model
 
     @allure.step("Get account")
@@ -38,7 +39,9 @@ class AccountAPI(Helper):
             url=self.endpoints.get_account,
             headers=self.headers.basic,
         )
+        print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = AccountModel(**response.json()["data"])
+        model = CreateAccountModel(**response.json())
+        assert model.message == "Дані успішно отримано."
         return model

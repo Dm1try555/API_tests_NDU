@@ -1,7 +1,6 @@
 import allure
 import pytest
-from config.base_test import BaseTest
-from services.admin_user.api_adminuser import AdminUserAPI  # Подключаем API
+from services.admin_user.api_adminuser import AdminUserAPI
 
 
 @allure.epic("AdminUser")
@@ -11,7 +10,7 @@ class TestAdminUser:
     @classmethod
     def setup_class(cls):
 
-        cls.api_adminuser = AdminUserAPI()  # Создаем объект API
+        cls.api_adminuser = AdminUserAPI()
 
     @pytest.fixture(scope="class", autouse=True)
     @allure.title("Create new user from admin portal")
@@ -42,10 +41,10 @@ class TestAdminUser:
 
     @allure.title("Get audit user by ID")
     def test_get_audit_by_id(self, user_id):
-        get_audit_by_id = self.api_adminuser.get_audit_by_id(user_id)
+        self.api_adminuser.get_audit_by_id(user_id)
 
 
 
     @allure.title("Change password from admin")
     def test_change_password(self, user_id):
-        change_password = self.api_adminuser.change_password_from_admin(user_id)
+        self.api_adminuser.change_password_from_admin(user_id)
