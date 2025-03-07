@@ -49,6 +49,12 @@ class TestRole:
         assert model.message == "Дані успішно отримано"
         assert model.data is not None
 
+    @allure.title("Get client Role permissions")
+    def test_get_client_role_permissions(self):
+        model = self.api_role.get_client_role_permissions()
+        assert model.message == "Дані успішно отримано"
+        assert model.data is not None
+
 
 
 

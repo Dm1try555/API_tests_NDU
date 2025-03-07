@@ -84,6 +84,18 @@ class RoleAPI(Helper):
         model = GetRolePermissionsModel(**response.json())
         return model
 
+    @allure.step("Get client Role permissions")
+    def get_client_role_permissions(self):
+        response = requests.get(
+            url=self.endpoints.get_permission_client,
+            headers=self.headers.basic,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetRolePermissionsModel(**response.json())
+        return model
+
 
 
 
