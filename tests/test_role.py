@@ -37,6 +37,12 @@ class TestRole:
         model = self.api_role.get_role_by_id(self.__class__.role_id)
         assert model.data.id == self.__class__.role_id
 
+    @allure.title("Get all Role permissions")
+    def test_get_role_permissions(self):
+        model = self.api_role.get_role_permissions()
+        assert model.message == "Дані успішно отримано"
+        assert model.data is not None
+
 
 
 

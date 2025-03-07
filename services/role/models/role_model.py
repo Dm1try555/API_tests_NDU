@@ -94,13 +94,13 @@ class ChangeRoleModel(BaseModel):
             return value
 
 
-# class GetKepGenerateModel(BaseModel):
-#     token: str
-#     hash: str
-#
-#     @field_validator("token", "hash")
-#     def message_is_valid(cls, value):
-#         if value == "" or value is None:
-#             raise ValueError("Field is empty")
-#         else:
-#             return value
+class GetRolePermissionsModel(BaseModel):
+    message: str
+    data: list[str]
+
+    @field_validator("message", "data")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value

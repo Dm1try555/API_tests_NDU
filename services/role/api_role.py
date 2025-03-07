@@ -4,7 +4,11 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.role.endpoints import Endpoints
 from services.role.payloads import Payloads
-from services.role.models.role_model import CreateRoleModel, GetRoleModel, ChangeRoleModel
+from services.role.models.role_model import (CreateRoleModel, GetRoleModel, ChangeRoleModel,
+                                             GetRolePermissionsModel)
+
+
+
 
 class RoleAPI(Helper):
 
@@ -56,7 +60,17 @@ class RoleAPI(Helper):
         model = ChangeRoleModel(**response.json())
         return model
 
-
+    @allure.step("Get all Role permissions")
+    def get_role_permissions(self):
+        response = requests.get(
+            url=self.endpoints.get_permission,
+            headers=self.headers.basic,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetRolePermissionsModel(**response.json())
+        return model
 
 
 
