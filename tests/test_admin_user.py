@@ -48,7 +48,28 @@ class TestAdminUser:
     def test_change_password(self, user_id):
         self.api_adminuser.change_password_from_admin(user_id)
 
-    @allure.title("Get list of users with filtering and sorting by default")
-    def test_get_users_by_filters_default(self):
-        model = self.api_adminuser.get_users_by_filters_default()
-        assert model.message ==  "Дані успішно отримано."
+
+
+@allure.epic("GetAdminUser")
+@allure.feature("GetAdminUser")
+class TestGetAdminUser:
+
+    @classmethod
+    def setup_class(cls):
+        cls.api_adminuser = AdminUserAPI()
+
+    @allure.title("Get list of users with filtering and sorting")
+    def test_get_users_by_filters(self):
+        model_default = self.api_adminuser.get_users_by_filters_default()
+        assert model_default.message == "Дані успішно отримано."
+
+        model_active = self.api_adminuser.get_users_by_filters_active()
+        assert model_active.data.items[0].status == "Active"
+
+        model_inactive = self.api_adminuser.get_users_by_filters_inactive()
+        assert model_inactive.data.items[0].status == "Inactive"
+
+        model_need_change_password = self.api_adminuser.get_users_by_filters_need_change_password()
+        assert any(user.status == "NeedChangePassword" for user in model_need_change_password.data.items)
+
+

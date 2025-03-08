@@ -179,7 +179,91 @@ class AdminUserAPI(Helper):
         )
 
         print(response.url)
-        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetAdminUserModel(**response.json())
+        return model
+
+    @allure.step("Get list of users with filtering and sorting by status Active")
+    def get_users_by_filters_active(self, max_result_count=100, skip_count=0, startdata=None,
+                                     enddata=None, sort_order="name",
+                                     filter_data=None, status = "Active", sort_order_type=None,
+                                     role_filter=None):
+        params = {
+            "maxResultCount": max_result_count,
+            "skipCount": skip_count,
+            "startDate": startdata,
+            "endDate": enddata,
+            "sortOrder": sort_order,
+            "filter": filter_data,
+            "status": status,
+            "sortOrderType": sort_order_type,
+            "roleFilter": role_filter
+        }
+        response = requests.get(
+            url=self.endpoints.get_admin_user,
+            headers=self.headers.basic,
+            params=params
+        )
+
+        print(response.url)
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetAdminUserModel(**response.json())
+        return model
+
+    @allure.step("Get list of users with filtering and sorting by status Inactive")
+    def get_users_by_filters_inactive(self, max_result_count=100, skip_count=0, startdata=None,
+                                    enddata=None, sort_order="name",
+                                    filter_data=None, status="Inactive", sort_order_type=None,
+                                    role_filter=None):
+        params = {
+            "maxResultCount": max_result_count,
+            "skipCount": skip_count,
+            "startDate": startdata,
+            "endDate": enddata,
+            "sortOrder": sort_order,
+            "filter": filter_data,
+            "status": status,
+            "sortOrderType": sort_order_type,
+            "roleFilter": role_filter
+        }
+        response = requests.get(
+            url=self.endpoints.get_admin_user,
+            headers=self.headers.basic,
+            params=params
+        )
+
+        print(response.url)
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetAdminUserModel(**response.json())
+        return model
+
+
+    @allure.step("Get list of users with filtering and sorting by status NeedChangePassword")
+    def get_users_by_filters_need_change_password(self, max_result_count=100, skip_count=0, startdata=None,
+                                    enddata=None, sort_order="name",
+                                    filter_data=None, status = "NeedChangePassword", sort_order_type=None,
+                                    role_filter=None):
+        params = {
+            "maxResultCount": max_result_count,
+            "skipCount": skip_count,
+            "startDate": startdata,
+            "endDate": enddata,
+            "sortOrder": sort_order,
+            "filter": filter_data,
+            "status": status,
+            "sortOrderType": sort_order_type,
+            "roleFilter": role_filter
+        }
+        response = requests.get(
+            url=self.endpoints.get_admin_user,
+            headers=self.headers.basic,
+            params=params
+        )
+
+        print(response.url)
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = GetAdminUserModel(**response.json())
