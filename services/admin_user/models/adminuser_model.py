@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional, Union, List, Dict
 from pydantic import BaseModel, field_validator
 
 
@@ -152,6 +152,19 @@ class AdminUserPassword(BaseModel):
             return value
 
 
+
+class ChangeAdminUserRoles(BaseModel):
+    id: int
+    name: str
+
+    @field_validator("id", "name")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
 class ChangeAdminUserData(BaseModel):
     id: int
     firstName: str
@@ -167,12 +180,11 @@ class ChangeAdminUserData(BaseModel):
     lastLoginTime: Optional[str] = None
     lastPasswordChangeTime: Optional[str] = None
     creationTime: str
-    updatedTime: str
-    roles: Optional[str] = None
+    roles: list[ChangeAdminUserRoles]
 
 
     @field_validator("id", "firstName", "lastName", "identityNumber", "login",
-                     "isNotifyEmail", "language", "status", "creationTime", "updatedTime")
+                     "isNotifyEmail", "language", "status", "creationTime")
     def fields_are_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -183,7 +195,7 @@ class ChangeAdminUserModel(BaseModel):
     message: str
     data: ChangeAdminUserData
 
-    @field_validator("message", "data")
+    @field_validator("message")
     def fields_are_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")

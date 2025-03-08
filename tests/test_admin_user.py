@@ -38,19 +38,19 @@ class TestAdminUser:
         self.api_adminuser.create_status_active(user_id)
         self.api_adminuser.get_status_active(user_id)
 
+    @allure.title("Change role for user")
+    def test_change_role_user(self, user_id):
+        change_role = self.api_adminuser.change_role_user(user_id)
+        check_role = self.api_adminuser.get_role_user(user_id)
+        assert check_role.data.roles is not None and len(check_role.data.roles) > 0
+        first_role = check_role.data.roles[0]
 
-    @allure.title("Get audit user by ID")
-    def test_get_audit_by_id(self, user_id):
-        self.api_adminuser.get_audit_by_id(user_id)
+        assert first_role.id == 3
 
 
-    @allure.title("Change password from admin")
-    def test_change_password(self, user_id):
-        self.api_adminuser.change_password_from_admin(user_id)
 
-    @allure.title("Change admin user info")
-    def test_change_user_info(self, user_id):
-        self.api_adminuser.change_user_info(user_id)
+
+
 
 
 

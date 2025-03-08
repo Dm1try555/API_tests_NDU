@@ -282,3 +282,28 @@ class AdminUserAPI(Helper):
         self.attach_response(response.json())
         model = ChangeAdminUserModel(**response.json())
         return model
+
+    @allure.step("Change role for user")
+    def change_role_user(self, id, role_id=3):
+        params = {
+            "roleId": role_id
+        }
+        response = requests.put(
+            url=self.endpoints.change_role_user(id),
+            headers=self.headers.basic,
+            params=params
+        )
+        assert response.status_code == 200
+        return
+
+    @allure.step("Get user by ID")
+    def get_role_user(self, id):
+        response = requests.get(
+            url=self.endpoints.get_admin_user_by_id(id),
+            headers=self.headers.basic,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = ChangeAdminUserModel(**response.json())
+        return model
