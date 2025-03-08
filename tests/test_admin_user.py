@@ -44,7 +44,11 @@ class TestAdminUser:
         self.api_adminuser.get_audit_by_id(user_id)
 
 
-
     @allure.title("Change password from admin")
     def test_change_password(self, user_id):
         self.api_adminuser.change_password_from_admin(user_id)
+
+    @allure.title("Get list of users with filtering and sorting by default")
+    def test_get_users_by_filters_default(self):
+        model = self.api_adminuser.get_users_by_filters_default()
+        assert model.message ==  "Дані успішно отримано."

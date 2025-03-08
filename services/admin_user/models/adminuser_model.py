@@ -2,6 +2,62 @@ from typing import Optional, Union
 from pydantic import BaseModel, field_validator
 
 
+class GetAdminUserRoles(BaseModel):
+    id: int
+    name: str
+
+    @field_validator("id", "name")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
+class GetAdminUserItem(BaseModel):
+    id: int
+    firstName: str
+    middleName: Union[str, None]
+    lastName: str
+    identityNumber: str
+    login: str
+    creationTime: str
+    status: str
+    roles: list[GetAdminUserRoles]
+
+    @field_validator("id", "firstName", "lastName", "identityNumber", "login", "creationTime", "roles", "status")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class GetAdminUserData(BaseModel):
+    totalCount: int
+    items: list[GetAdminUserItem]
+
+    @field_validator("totalCount", "items")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class GetAdminUserModel(BaseModel):
+    message: str
+    data: GetAdminUserData
+
+    @field_validator("message", "data")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
+
+
+
 class CreateAdminUserData(BaseModel):
     id: int
     firstName: str
