@@ -48,6 +48,10 @@ class TestAdminUser:
     def test_change_password(self, user_id):
         self.api_adminuser.change_password_from_admin(user_id)
 
+    @allure.title("Change admin user info")
+    def test_change_user_info(self, user_id):
+        self.api_adminuser.change_user_info(user_id)
+
 
 
 @allure.epic("GetAdminUser")

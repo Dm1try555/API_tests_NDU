@@ -150,3 +150,42 @@ class AdminUserPassword(BaseModel):
             raise ValueError("Field is empty")
         else:
             return value
+
+
+class ChangeAdminUserData(BaseModel):
+    id: int
+    firstName: str
+    middleName: Optional[str] = None
+    lastName: str
+    identityNumber: str
+    login: str
+    language: str
+    isNotifyEmail: bool
+    countOfSignaturesForDocument: Optional[str] = None
+    countOfStampsForDocument: Optional[str] = None
+    status: str
+    lastLoginTime: Optional[str] = None
+    lastPasswordChangeTime: Optional[str] = None
+    creationTime: str
+    updatedTime: str
+    roles: Optional[str] = None
+
+
+    @field_validator("id", "firstName", "lastName", "identityNumber", "login",
+                     "isNotifyEmail", "language", "status", "creationTime", "updatedTime")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class ChangeAdminUserModel(BaseModel):
+    message: str
+    data: ChangeAdminUserData
+
+    @field_validator("message", "data")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value

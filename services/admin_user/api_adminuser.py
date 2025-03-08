@@ -5,7 +5,8 @@ from utils.helper import Helper
 from services.admin_user.endpoints import Endpoints
 from services.admin_user.payloads import Payloads
 from services.admin_user.models.adminuser_model import (CreateAdminUserModel, AdminUserAuditModel,
-                                                        AdminUserPassword, StatusModel, GetAdminUserModel)
+                                                        AdminUserPassword, StatusModel, GetAdminUserModel,
+                                                        ChangeAdminUserModel)
 
 
 class AdminUserAPI(Helper):
@@ -267,4 +268,17 @@ class AdminUserAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = GetAdminUserModel(**response.json())
+        return model
+
+    @allure.step("Change admin user info")
+    def change_user_info(self, id):
+        response = requests.put(
+            url=self.endpoints.change_info_user(id),
+            headers=self.headers.basic,
+            json=self.payloads.change_info_user_from_admin
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = ChangeAdminUserModel(**response.json())
         return model
