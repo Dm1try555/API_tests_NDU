@@ -5,7 +5,7 @@ from utils.helper import Helper
 from services.document.endpoints import Endpoints
 from services.document.payloads import Payloads
 from services.document.models.document_model import CreateDocumentModel, DeleteDocumentModel, CheckDeleteDocumentModel, \
-    CopyDocumentModel, AuditDocumentModel #GetDocumentModel
+    CopyDocumentModel, AuditDocumentModel, GetDocumentModel
 
 
 class DocumentAPI(Helper):
@@ -88,6 +88,43 @@ class DocumentAPI(Helper):
         assert response.status_code == 404, response.json()
         self.attach_response(response.json())
         model = CheckDeleteDocumentModel(**response.json())
+        return model
+
+    @allure.step("Get document list by default filters")
+    def get_document_by_default_filters(self, max_result_count=None, skip_count=None, sort_order=None,
+                                                  sort_order_type= None, document_direction_type=None,
+                                                  filter_data=None, filter_edrpou=None, filter_llc_name=None,
+                                                  filter_number=None, filter_username=None, start_cr_date=None,
+                                        end_cr_date=None, start_upd_date=None, end_upd_date=None,
+                                        status=None, doc_type = None):
+        params = {
+            "maxResultCount": max_result_count,
+            "skipCount": skip_count,
+            "sortOrder": sort_order,
+            "sortOrderType": sort_order_type,
+            "documentDirectionType": document_direction_type,
+            "filter": filter_data,
+            "filterByLLCEDRPOU": filter_edrpou,
+            "filterByLLCName": filter_llc_name,
+            "filterByUserIdentityNumber": filter_number,
+            "filterByUserName": filter_username,
+            "startCreatedDate": start_cr_date,
+            "endCreatedDate": end_cr_date,
+            "startUpdatedDate": start_upd_date,
+            "endUpdatedDate": end_upd_date,
+            "documentStatus": status,
+            "documentType": doc_type
+        }
+        response = requests.get(
+            url=self.endpoints.get_document,
+            headers=self.headers.basic,
+            params=params
+        )
+        print(response.url)
+        # print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetDocumentModel(**response.json())
         return model
 
 
