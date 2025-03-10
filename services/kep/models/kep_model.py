@@ -1,7 +1,6 @@
-from typing import Union
+from typing import Union, List
 
-from pydantic import BaseModel, field_validator
-
+from pydantic import BaseModel, field_validator, RootModel
 
 
 class CreateKepVerifyData(BaseModel):
@@ -57,3 +56,38 @@ class GetKepGenerateModel(BaseModel):
             raise ValueError("Field is empty")
         else:
             return value
+
+class GetKepIntegrationAccountList(BaseModel):
+    ACCOUNT_OWNER_LIST: str
+    NAME_SURNAME: str
+    NAME_FORENAMES: str #null
+    NAME_PATRONYM: str #null
+    NAME_ID_CODE: str
+    ACCOUNT_REFERENCE: str
+    HOLDER_BALANCE: float
+    ACCOUNT_CLASS: str
+    ACCOUNT_CATEGORY: str
+
+    @field_validator("ACCOUNT_OWNER_LIST", "NAME_SURNAME", "NAME_ID_CODE", "ACCOUNT_REFERENCE",
+                     "HOLDER_BALANCE", "ACCOUNT_CLASS", "ACCOUNT_CATEGORY")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class GetKepIntegrationModel(BaseModel):
+    ISSUER_NAME: str
+    ISSUER_SHORT_NAME: str
+    ISSUER_NUMBER: str
+    AccountList: list[GetKepIntegrationAccountList]
+
+    @field_validator("ISSUER_NAME", "ISSUER_SHORT_NAME", "ISSUER_NUMBER")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class GetKepIntegrationListModel(RootModel[List[GetKepIntegrationModel]]):
+    pass

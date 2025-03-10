@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.kep.endpoints import Endpoints
 from services.kep.payloads import Payloads
-from services.kep.models.kep_model import KepVerifyModel, GetKepGenerateModel
+from services.kep.models.kep_model import KepVerifyModel, GetKepGenerateModel, GetKepIntegrationListModel
 
 class KepAPI(Helper):
 
@@ -62,4 +62,16 @@ class KepAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = GetKepGenerateModel(**response.json())
+        return model
+
+    @allure.step("Get KEP integration")
+    def get_kep_integration(self):
+        response = requests.get(
+            url=self.endpoints.get_kep_integration,
+            headers=self.headers.basic,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetKepIntegrationListModel.model_validate(response.json())
         return model
