@@ -44,6 +44,18 @@ class ChangePasswordModel(BaseModel):
             return value
 
 
+class GetHashModel(BaseModel):
+    message: str
+    data: str
+
+    @field_validator("message", "data")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
 # class RefreshTokenModel(BaseModel):
 #     Message: str
 #     Data: Optional[None]

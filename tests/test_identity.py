@@ -1,6 +1,4 @@
 import allure
-import pytest
-from config.base_test import BaseTest
 from services.identity.api_identity import IdentityAPI
 
 
@@ -16,16 +14,25 @@ class TestIdentity:
 
     @allure.title("Auth user and generate token")
     def test_auth_user_and_token(self):
-        auth = self.api_identity.auth_user_and_token()
+        model = self.api_identity.auth_user_and_token()
+        assert model.message and model.data is not None
 
 
     @allure.title("Auth user and generate token from admin")
     def test_auth_user_and_token_from_admin(self):
-        auth = self.api_identity.auth_user_and_token_from_admin()
+        model = self.api_identity.auth_user_and_token_from_admin()
+        assert model.message and model.data is not None
 
     @allure.title("Change password")
     def test_change_password(self):
-        change_password = self.api_identity.change_password()
+        model = self.api_identity.change_password()
+        assert model.message is not None
+
+    @allure.title("Get Hash")
+    def test_get_hash(self):
+        model = self.api_identity.get_hash()
+        assert model.message == "Згенеровано унікальний ключ."
+        assert model.data is not None
 
 
 

@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.identity.endpoints import Endpoints
 from services.identity.payloads import Payloads
-from services.identity.models.identity_model import AuthModel, ChangePasswordModel #RefreshTokenModel
+from services.identity.models.identity_model import AuthModel, ChangePasswordModel,GetHashModel #RefreshTokenModel
 
 
 class IdentityAPI(Helper):
@@ -54,6 +54,18 @@ class IdentityAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = ChangePasswordModel(**response.json())
+        return model
+
+    @allure.step("Get hash")
+    def get_hash(self):
+        response = requests.get(
+            url=self.endpoints.get_hash,
+            headers=self.headers.basic
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetHashModel(**response.json())
         return model
 
     # @allure.step("Refresh token")
