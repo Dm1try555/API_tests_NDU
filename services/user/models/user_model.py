@@ -215,3 +215,45 @@ class ChangePasswordModel(BaseModel):
             raise ValueError("Field is empty")
         else:
             return value
+
+
+
+'''Change User Info by ID'''
+
+class ChangeUserIdData(BaseModel):
+    id: int
+    firstName: str
+    middleName: Optional[str] = None
+    lastName: str
+    identityNumber: str
+    login: str
+    language: str
+    isNotifyEmail: bool
+    countOfSignaturesForDocument: Optional[str] = None
+    countOfStampsForDocument: Optional[str] = None
+    status: str
+    lastLoginTime: Optional[str] = None
+    lastPasswordChangeTime: Optional[str] = None
+    creationTime: str
+    updatedTime: Union[str,None]
+    roles: Union[list, None]
+
+
+    @field_validator("id", "firstName", "lastName", "identityNumber", "login",
+                     "isNotifyEmail", "language", "status", "creationTime")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class ChangeUserIdModel(BaseModel):
+    message: str
+    data: ChangeUserIdData
+
+    @field_validator("message")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value

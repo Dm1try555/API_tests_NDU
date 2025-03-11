@@ -24,14 +24,14 @@ class Payloads:
 
 
 
-    # change_info_user_from_admin = \
-    #     {
-    #         "firstName": fake.first_name(),
-    #         "middleName": fake.first_name(),
-    #         "lastName": fake.last_name(),
-    #         "identityNumber": fake.ssn(),
-    #         "login": fake.user_name()
-    #     }
-    # print(change_info_user_from_admin)
+    change_info_user= \
+        {
+            "firstName": fake.first_name(),
+            "middleName": fake.first_name(),
+            "lastName": fake.last_name(),
+            "identityNumber": "1234567890",
+            "login": fake.user_name()
+        }
+    print(change_info_user)
 
 

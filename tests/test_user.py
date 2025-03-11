@@ -69,44 +69,15 @@ class TestUser:
         assert model.message == "Пароль успішно змінено."
 
 
-
-
-    # @allure.title("Check User Role change by ID")
-    # def test_get_role_change_by_id(self):
-    #     assert self.__class__.user_id is not None
-    #     model = self.api_user.get_user_by_id(self.__class__.user_id)
-    #     assert model.data.roles, f"No roles found in response: {model.data}"
-    #     assert model.data.roles[0].id == 3 and model.data.roles[0].name == "test"
+    @allure.title("Change User Info by ID")
+    def test_change_user_info(self):
+        assert self.__class__.user_id is not None
+        model = self.api_user.change_user_info_by_id(self.__class__.user_id)
+        assert model.message == "Користувача успішно оновлено."
 
 
 
 
-
-
-
-
-    # @allure.title("Get all Role permissions")
-    # def test_get_role_permissions(self):
-    #     model = self.api_role.get_role_permissions()
-    #     assert model.message == "Дані успішно отримано"
-    #     assert model.data is not None
-    #
-    # @allure.title("Get admin Role permissions")
-    # def test_get_admin_role_permissions(self):
-    #     model = self.api_role.get_admin_role_permissions()
-    #     assert model.message == "Дані успішно отримано"
-    #     assert model.data is not None
-    #
-    # @allure.title("Get client Role permissions")
-    # def test_get_client_role_permissions(self):
-    #     model = self.api_role.get_client_role_permissions()
-    #     assert model.message == "Дані успішно отримано"
-    #     assert model.data is not None
-    #
-    # @allure.title("Get list of roles")
-    # def test_get_role_by_filters(self):
-    #     model = self.api_role.get_role_by_filters()
-    #     assert model.data is not None
 
 
 
