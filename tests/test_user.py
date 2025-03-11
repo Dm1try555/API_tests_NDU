@@ -41,6 +41,13 @@ class TestUser:
         self.api_user.create_status_active(self.__class__.user_id)
         self.api_user.get_status_active(self.__class__.user_id)
 
+    @allure.title("Check User Audit by ID")
+    def test_get_user_audit_by_id(self):
+        assert self.__class__.user_id is not None
+        model = self.api_user.get_user_audit_by_id(self.__class__.user_id)
+        assert model.message == "Аудит користувача успішно отримано."
+
+
 
 
 

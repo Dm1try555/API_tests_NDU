@@ -162,7 +162,17 @@ class UserAPI(Helper):
         assert model.data.status == "Blocked"
         return model
 
-
+    @allure.step("Get User Audit by ID")
+    def get_user_audit_by_id(self, id):
+        response = requests.get(
+            url=self.endpoints.get_audit_by_id(id),
+            headers=self.headers.basic,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = UserAuditModel(**response.json())
+        return model
 
 
     # @allure.step("Change Role by ID")
