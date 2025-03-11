@@ -179,12 +179,12 @@ class GetUserIdData(BaseModel):
     lastLoginTime: Optional[str] = None
     lastPasswordChangeTime: Optional[str] = None
     creationTime: str
-    updatedTime: str
+    updatedTime: Union[str,None]
     roles: list[GetUserIdRoles]
 
 
     @field_validator("id", "firstName", "lastName", "identityNumber", "login",
-                     "isNotifyEmail", "language", "status", "creationTime", "updatedTime")
+                     "isNotifyEmail", "language", "status", "creationTime")
     def fields_are_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -193,7 +193,7 @@ class GetUserIdData(BaseModel):
 
 class GetUserIdModel(BaseModel):
     message: str
-    data: GetUserData
+    data: GetUserIdData
 
     @field_validator("message")
     def fields_are_not_empty(cls, value):

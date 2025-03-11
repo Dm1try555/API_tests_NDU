@@ -5,7 +5,7 @@ from services.user.api_user import UserAPI
 @allure.epic("User")
 @allure.feature("User")
 class TestUser:
-    role_id = None
+    user_id = None
 
     @classmethod
     def setup_class(cls):
@@ -14,21 +14,21 @@ class TestUser:
     @allure.title("Create new User")
     def test_create_user(self):
         model = self.api_user.create_user()
-        self.__class__.role_id = model.data.id
-        print(f"Create user ID: {self.__class__.role_id}")
+        self.__class__.user_id = model.data.id
+        print(f"Create user ID: {self.__class__.user_id}")
         assert model.message == "Користувача зареєстровано."
 
 
+    @allure.title("Check User by ID")
+    def test_get_user_by_id(self):
+        assert self.__class__.user_id is not None
+        model = self.api_user.get_user_by_id(self.__class__.user_id)
+        assert model.data.id == self.__class__.user_id
+        assert model.message == "Користувача успішно отримано."
 
 
 
 
-    # @allure.title("Check Role by ID")
-    # def test_get_role_by_id(self):
-    #     assert self.__class__.role_id is not None
-    #     model = self.api_role.get_role_by_id(self.__class__.role_id)
-    #     assert model.data.id == self.__class__.role_id
-    #
     # @allure.title("Change Role by ID")
     # def test_change_role_by_id(self):
     #     assert self.__class__.role_id is not None

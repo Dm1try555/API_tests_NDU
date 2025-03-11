@@ -31,23 +31,22 @@ class UserAPI(Helper):
         return model
 
 
+    @allure.step("Get User by ID")
+    def get_user_by_id(self, id):
+        response = requests.get(
+            url=self.endpoints.get_user_by_id(id),
+            headers=self.headers.basic,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetUserIdModel(**response.json())
+        return model
 
 
 
 
-    # @allure.step("Get Role by ID")
-    # def get_role_by_id(self, id):
-    #     response = requests.get(
-    #         url=self.endpoints.get_role_by_id(id),
-    #         headers=self.headers.basic,
-    #     )
-    #     print(response.json())
-    #     assert response.status_code == 200, response.json()
-    #     self.attach_response(response.json())
-    #     model = GetRoleModel(**response.json())
-    #     return model
-    #
-    #
+
     # @allure.step("Change Role by ID")
     # def change_role_by_id(self, id):
     #     response = requests.put(
