@@ -1,7 +1,5 @@
 from typing import Optional, Union
-from pydantic import BaseModel, field_validator, root_validator
-
-
+from pydantic import BaseModel, field_validator, root_validator, model_validator
 
 '''Create Document'''
 
@@ -117,7 +115,7 @@ class CopyDocumentData(BaseModel):
     countOfSignaturesForDocument: int
     countOfStampsForDocument: int
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     def check_empty_fields(cls, values):
         required_fields = [
             "id", "name", "documentType", "documentDirection", "documentStatus",
