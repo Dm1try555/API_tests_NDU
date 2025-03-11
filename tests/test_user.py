@@ -1,0 +1,69 @@
+import allure
+from services.user.api_user import UserAPI
+
+
+@allure.epic("User")
+@allure.feature("User")
+class TestUser:
+    role_id = None
+
+    @classmethod
+    def setup_class(cls):
+        cls.api_user = UserAPI()
+
+    @allure.title("Create new User")
+    def test_create_user(self):
+        model = self.api_user.create_user()
+        self.__class__.role_id = model.data.id
+        print(f"Create user ID: {self.__class__.role_id}")
+        assert model.message == "Користувача зареєстровано."
+
+
+
+
+
+
+    # @allure.title("Check Role by ID")
+    # def test_get_role_by_id(self):
+    #     assert self.__class__.role_id is not None
+    #     model = self.api_role.get_role_by_id(self.__class__.role_id)
+    #     assert model.data.id == self.__class__.role_id
+    #
+    # @allure.title("Change Role by ID")
+    # def test_change_role_by_id(self):
+    #     assert self.__class__.role_id is not None
+    #     model = self.api_role.change_role_by_id(self.__class__.role_id)
+    #     assert model.data.id == self.__class__.role_id
+    #
+    # @allure.title("Check Role change by ID")
+    # def test_get_role_change_by_id(self):
+    #     assert self.__class__.role_id is not None
+    #     model = self.api_role.get_role_by_id(self.__class__.role_id)
+    #     assert model.data.id == self.__class__.role_id
+    #
+    # @allure.title("Get all Role permissions")
+    # def test_get_role_permissions(self):
+    #     model = self.api_role.get_role_permissions()
+    #     assert model.message == "Дані успішно отримано"
+    #     assert model.data is not None
+    #
+    # @allure.title("Get admin Role permissions")
+    # def test_get_admin_role_permissions(self):
+    #     model = self.api_role.get_admin_role_permissions()
+    #     assert model.message == "Дані успішно отримано"
+    #     assert model.data is not None
+    #
+    # @allure.title("Get client Role permissions")
+    # def test_get_client_role_permissions(self):
+    #     model = self.api_role.get_client_role_permissions()
+    #     assert model.message == "Дані успішно отримано"
+    #     assert model.data is not None
+    #
+    # @allure.title("Get list of roles")
+    # def test_get_role_by_filters(self):
+    #     model = self.api_role.get_role_by_filters()
+    #     assert model.data is not None
+
+
+
+
