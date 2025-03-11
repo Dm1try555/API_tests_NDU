@@ -175,19 +175,22 @@ class UserAPI(Helper):
         return model
 
 
-    # @allure.step("Change Role by ID")
-    # def change_role_by_id(self, id):
-    #     response = requests.put(
-    #         url=self.endpoints.change_role_by_id(id),
-    #         headers=self.headers.basic,
-    #         json=self.payloads.change_role
-    #     )
-    #     print(response.json())
-    #     assert response.status_code == 200, response.json()
-    #     self.attach_response(response.json())
-    #     model = ChangeRoleModel(**response.json())
-    #     return model
-    #
+    @allure.step("Change User Role by ID")
+    def change_role_by_id(self, id):
+        response = requests.put(
+            url=self.endpoints.change_role_by_id(id),
+            headers=self.headers.basic,
+            params={"roleId": 3}
+        )
+        print(response.url)
+        assert response.status_code == 200
+        self.attach_response(response.url)
+        return
+
+
+
+
+
     # @allure.step("Get all Role permissions")
     # def get_role_permissions(self):
     #     response = requests.get(
