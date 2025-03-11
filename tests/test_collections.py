@@ -1,6 +1,4 @@
 import allure
-import pytest
-from config.base_test import BaseTest
 from services.collections.api_collections import CollectionsAPI
 
 
