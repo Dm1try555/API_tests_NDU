@@ -201,3 +201,17 @@ class GetUserIdModel(BaseModel):
             raise ValueError("Field is empty")
         else:
             return value
+
+
+'''Change Password By ID'''
+
+class ChangePasswordModel(BaseModel):
+    message: str
+    data: Union[str, None]
+
+    @field_validator("message")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value

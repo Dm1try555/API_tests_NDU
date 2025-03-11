@@ -62,6 +62,25 @@ class TestUser:
         assert model.data.roles[0].id == 3 and model.data.roles[0].name == "test"
 
 
+    @allure.title("Change User Password by ID")
+    def test_change_password(self):
+        assert self.__class__.user_id is not None
+        model = self.api_user.change_password_by_id(self.__class__.user_id)
+        assert model.message == "Пароль успішно змінено."
+
+
+
+
+    # @allure.title("Check User Role change by ID")
+    # def test_get_role_change_by_id(self):
+    #     assert self.__class__.user_id is not None
+    #     model = self.api_user.get_user_by_id(self.__class__.user_id)
+    #     assert model.data.roles, f"No roles found in response: {model.data}"
+    #     assert model.data.roles[0].id == 3 and model.data.roles[0].name == "test"
+
+
+
+
 
 
 

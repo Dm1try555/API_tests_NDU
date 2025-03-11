@@ -16,13 +16,14 @@ class Payloads:
     print(create_user)
 
 
-    # change_password = \
-    #     {
-    #         "newPassword": fake.password(special_chars=True, digits=True, upper_case=True, lower_case=True),  # length=14,
-    #
-    #     }
-    # print(change_password)
-    #
+    change_password = \
+        {
+            "newPassword": fake.password(special_chars=True, digits=True, upper_case=True, lower_case=True),  # length=14,
+        }
+    print(change_password)
+
+
+
     # change_info_user_from_admin = \
     #     {
     #         "firstName": fake.first_name(),

@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.user.endpoints import Endpoints
 from services.user.payloads import Payloads
-from services.user.models.user_model import GetUserModel, CreateUserModel, StatusModel, UserAuditModel, GetUserIdModel
+from services.user.models.user_model import GetUserModel, CreateUserModel, StatusModel, UserAuditModel, GetUserIdModel, ChangePasswordModel
 
 
 
@@ -187,7 +187,20 @@ class UserAPI(Helper):
         self.attach_response(response.url)
         return
 
-
+    @allure.step("Change User Password by ID")
+    def change_password_by_id(self, id):
+        print(self.payloads.change_password)
+        response = requests.put(
+            url=self.endpoints.change_password_by_id(id),
+            headers=self.headers.basic,
+            json=self.payloads.change_password
+        )
+        print(response.url)
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = ChangePasswordModel(**response.json())
+        return model
 
 
 
