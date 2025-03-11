@@ -27,6 +27,21 @@ class TestUser:
         assert model.message == "Користувача успішно отримано."
 
 
+    @allure.title("Create toggle status")
+    def test_create_status(self):
+        self.api_user.create_status_inactive(self.__class__.user_id)
+        self.api_user.get_status_inactive(self.__class__.user_id)
+
+        self.api_user.create_status_need_change_password(self.__class__.user_id)
+        self.api_user.get_status_need_change_password(self.__class__.user_id)
+
+        self.api_user.create_status_blocked(self.__class__.user_id)
+        self.api_user.get_status_blocked(self.__class__.user_id)
+
+        self.api_user.create_status_active(self.__class__.user_id)
+        self.api_user.get_status_active(self.__class__.user_id)
+
+
 
 
     # @allure.title("Change Role by ID")
