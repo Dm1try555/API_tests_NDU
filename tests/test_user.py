@@ -76,6 +76,13 @@ class TestUser:
         assert model.message == "Користувача успішно оновлено."
 
 
+    @allure.title("Get Users list by filters")
+    def test_get_users_list(self):
+        model = self.api_user.get_users_by_default_filters()
+        assert model.message == "Дані успішно отримано."
+
+
+
 
 
 

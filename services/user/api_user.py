@@ -217,3 +217,31 @@ class UserAPI(Helper):
         model = ChangeUserIdModel(**response.json())
         return model
 
+    @allure.step("Get Users list by default filters")
+    def get_users_by_default_filters(self, max_result_count=None, skip_count=None, sort_order=None,
+                                        sort_order_type=None, start_date = None, end_date = None,
+                                        filter_data=None, role_filter=None, status_data=None):
+        params = {
+            "maxResultCount": max_result_count,
+            "skipCount": skip_count,
+            "startDate": start_date,
+            "endDate": end_date,
+            "sortOrder": sort_order,
+            "filter": filter_data,
+            "status": status_data,
+            "sortOrderType": sort_order_type,
+            "roleFilter": role_filter
+        }
+        response = requests.get(
+            url=self.endpoints.get_user,
+            headers=self.headers.basic,
+            params=params
+        )
+        print(response.url)
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetUserModel(**response.json())
+        return model
+
+
