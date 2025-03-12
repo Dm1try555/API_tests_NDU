@@ -44,9 +44,53 @@ class GetSignatureModel(BaseModel):
         else:
             return value
 
+'''Get Signature by ID'''
+
 class GetSignatureByIdModel(BaseModel):
     message: str
     data: GetSignatureItemModel
+
+    @field_validator("message", "data")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
+
+'''Create Signature System'''
+
+class CreateSignatureData(BaseModel):
+    id: int
+    name: str
+    llcId: int
+    createdOn: str
+    identifier: str
+    countOfSignaturesForDocument: int
+    countOfStampsForDocument: int
+    isDefaultPhysicalPerson: bool
+    isDefaultJuridicalPerson: bool
+
+    @field_validator("id", "name", "llcId", "createdOn", "identifier", "countOfSignaturesForDocument",
+                     "countOfStampsForDocument", "isDefaultPhysicalPerson", "isDefaultJuridicalPerson")
+    def fields_are_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class CreateSignatureModel(BaseModel):
+    message: str
+    data: CreateSignatureData
+
+    @field_validator("message", "data")
+    def total_count_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
 
 
 '''Change Signature System'''
@@ -76,6 +120,20 @@ class ChangeSignatureModel(BaseModel):
 
     @field_validator("message", "data")
     def total_count_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
+'''Delete Signature by ID'''
+
+class DeleteSignatureModel(BaseModel):
+    message: str
+    data: str | None
+
+    @field_validator("message")
+    def message_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
         else:

@@ -1,5 +1,4 @@
 import allure
-import pytest
 from services.signature.api_signature import SignatureAPI
 
 
@@ -14,20 +13,19 @@ class TestSignature:
 
         cls.api_signature = SignatureAPI()
 
-    # @pytest.fixture(scope="class", autouse=True)
-    # @allure.title("Create new user from admin portal")
-    # def user_id(self):
-    #     user = self.api_adminuser.create_user_from_admin()
-    #     print(f"Создан пользователь с ID: {user.id}")
-    #     return user.id
 
+    @allure.title("Create signature")
+    def test_create_signature(self):
+        model = self.api_signature.create_signature()
+        self.__class__.signature_id = model.data.id
+        print(f"Create signature with ID: {self.__class__.signature_id}")
+        assert model.message == "Успішно створено."
 
 
     @allure.title("Get signature by filter")
     def test_signature_by_filter(self):
-        model, signature_id = self.api_signature.get_signature_by_filter()
-        assert signature_id, "The received ID cannot be empty"
-        self.__class__.signature_id = model.data.items[2].id
+        model = self.api_signature.get_signature_by_filter()
+        assert model.data.items[2].id == self.__class__.signature_id
         print(f"Extracted id 3 elements: {self.__class__.signature_id}")
 
 
@@ -41,6 +39,28 @@ class TestSignature:
     def test_change_signature(self):
         model = self.api_signature.change_signature_by_id(self.__class__.signature_id)
         assert model.message == "Успішно оновлено."
+        assert model.data.id == self.__class__.signature_id, "The ID in the response does not match the expected one"
+
+
+    @allure.title("Delete signature by SignatureSystemId")
+    def test_delete_signature(self):
+        model = self.api_signature.delete_signature(self.__class__.signature_id)
+        assert model.message == "Успішно видалено."
+
+
+    @allure.title("Check signature after delete")
+    def test_check_after_delete_signature(self):
+        model = self.api_signature.get_signature_by_filter()
+        assert model.message == "Дані успішно отримано."
+
+        assert isinstance(model.data.items, list)
+
+        ids = [item.id for item in model.data.items]
+        assert self.__class__.signature_id not in ids, f"ID {self.__class__.signature_id} still on the list: {ids}"
+
+
+
+
 
 
 

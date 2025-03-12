@@ -4,7 +4,9 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.signature.endpoints import Endpoints
 from services.signature.payloads import Params, Payloads
-from services.signature.models.signature_model import GetSignatureModel, GetSignatureByIdModel, ChangeSignatureModel
+from services.signature.models.signature_model import (GetSignatureModel, GetSignatureByIdModel,
+                                                       ChangeSignatureModel, CreateSignatureModel,
+                                                       DeleteSignatureModel)
 
 
 class SignatureAPI(Helper):
@@ -24,13 +26,9 @@ class SignatureAPI(Helper):
             params= Params.signature_params
         )
         assert response.status_code == 200, response.json()
-        response_json = response.json()
-        self.attach_response(response_json)
-        print(response_json)
-        model = GetSignatureModel(**response_json)
-        signature_id = response_json.get("data", {}).get("items", [{}])[0].get("id")
-        assert signature_id, "ID not found in API response"
-        return model, signature_id
+        self.attach_response(response.json())
+        model = GetSignatureModel(**response.json())
+        return model
 
 
     @allure.step("Get signature by ID")
@@ -58,5 +56,31 @@ class SignatureAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = ChangeSignatureModel(**response.json())
+        return model
+
+    @allure.step("Create signature")
+    def create_signature(self):
+        response = requests.post(
+            url=self.endpoints.create_signature,
+            headers=self.headers.basic,
+            json=self.payloads.create_signature
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = CreateSignatureModel(**response.json())
+        return model
+
+
+    @allure.step("Delete signature")
+    def delete_signature(self, id):
+        response = requests.delete(
+            url=self.endpoints.delete_signature_by_id(id),
+            headers=self.headers.basic
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = DeleteSignatureModel(**response.json())
         return model
 
