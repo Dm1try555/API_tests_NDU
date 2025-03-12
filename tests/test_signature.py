@@ -6,6 +6,8 @@ from services.signature.api_signature import SignatureAPI
 @allure.epic("Signature-system")
 @allure.feature("Signature")
 class TestSignature:
+    signature_id = None
+
 
     @classmethod
     def setup_class(cls):
@@ -24,15 +26,21 @@ class TestSignature:
     @allure.title("Get signature by filter")
     def test_signature_by_filter(self):
         model, signature_id = self.api_signature.get_signature_by_filter()
-        assert signature_id, "Отриманий ID не може бути порожнім"
+        assert signature_id, "The received ID cannot be empty"
+        self.__class__.signature_id = model.data.items[2].id
+        print(f"Extracted id 3 elements: {self.__class__.signature_id}")
+
 
     @allure.title("Get signature by ID")
     def test_signature_by_id(self):
-        model, signature_id = self.api_signature.get_signature_by_filter()  # Получаем ID
-        assert signature_id, "ID не может быть пустым или None"
+        model = self.api_signature.get_signature_by_id(self.__class__.signature_id)
+        assert model.data.id == self.__class__.signature_id, "The ID in the response does not match the expected one"
 
-        signature_by_id = self.api_signature.get_signature_by_id(signature_id)  # Передаем ID в запрос
-        assert signature_by_id.data.id == signature_id, "ID в ответе не совпадает с ожидаемым"
+
+    @allure.title("Change signature by SignatureSystemID")
+    def test_change_signature(self):
+        model = self.api_signature.change_signature_by_id(self.__class__.signature_id)
+        assert model.message == "Успішно оновлено."
 
 
 
