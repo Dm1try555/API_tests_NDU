@@ -7,23 +7,29 @@ from services.llc.api_llc import LlcAPI
 @allure.feature("LLC")
 class TestLLC:
 
+    id_llc = None
+
     @classmethod
     def setup_class(cls):
 
         cls.api_llc = LlcAPI()
 
-    # @pytest.fixture(scope="class", autouse=True)
-    # @allure.title("Create new user from admin portal")
-    # def user_id(self):
-    #     user = self.api_adminuser.create_user_from_admin()
-    #     print(f"Создан пользователь с ID: {user.id}")
-    #     return user.id
-
-
 
     @allure.title("Get llc by filter")
     def test_llc_by_filter(self):
-        llc = self.api_llc.get_llc_by_filter()
+        model = self.api_llc.get_llc_by_filter()
+        assert model.message == "Успішно отримано дані."
+        assert model.data is not None
+        self.__class__.id_llc = model.data.items[1].id
+        print(f"Extracted ID second LLC: {self.__class__.id_llc}")
+
+
+    @allure.title("Get llc by ID")
+    def test_llc_by_id(self):
+        model = self.api_llc.get_llc_by_id(self.__class__.id_llc)
+        assert model.message == "LLC retrieved successfully"
+        assert model.data is not None
+        assert model.data.id == self.__class__.id_llc
 
 
 
