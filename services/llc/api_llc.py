@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.llc.endpoints import Endpoints
 from services.llc.payloads import Payloads, Params
-from services.llc.models.llc_model import LlcModel, LlcIdModel
+from services.llc.models.llc_model import LlcModel, LlcIdModel ,AddManagerModel
 
 
 class LlcAPI(Helper):
@@ -44,4 +44,16 @@ class LlcAPI(Helper):
         model = LlcIdModel(**response.json())
         return model
 
+    @allure.step("Add manager to LLC")
+    def add_manager_to_llc(self, llc_id, user_id):
+        response = requests.post(
+            url=self.endpoints.add_manager_to_LLC(llc_id, user_id),
+            headers=self.headers.basic
+        )
+        print(response.json())
+        print(response.url)
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = AddManagerModel(**response.json())
+        return model
 
