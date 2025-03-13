@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.identity.endpoints import Endpoints
 from services.identity.payloads import Payloads
-from services.identity.models.identity_model import AuthModel, ChangePasswordModel,GetHashModel #RefreshTokenModel
+from services.identity.models.identity_model import AuthModel, ChangePasswordModel,GetHashModel, AuthCodeModel #RefreshTokenModel
 
 
 class IdentityAPI(Helper):
@@ -27,6 +27,19 @@ class IdentityAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = AuthModel(**response.json())
+        return model
+
+    @allure.step("Auth user code (token)")
+    def auth_user_code(self):
+        response = requests.post(
+            url=self.endpoints.auth_code,
+            headers=self.headers.basic,
+            json=self.payloads.auth_code
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = AuthCodeModel(**response.json())
         return model
 
     @allure.step("Auth user and generate token from admin")

@@ -1,6 +1,7 @@
 from typing import Optional, Union
 from pydantic import BaseModel, field_validator
 
+'''Auth'''
 
 class AuthDataModel(BaseModel):
     id: int
@@ -31,6 +32,20 @@ class AuthModel(BaseModel):
         else:
             return value
 
+'''Auth code'''
+
+class AuthCodeModel(BaseModel):
+    token: str
+
+    @field_validator("token")
+    def message_and_data_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
+'''Change Password'''
 
 class ChangePasswordModel(BaseModel):
     message: str
@@ -43,6 +58,8 @@ class ChangePasswordModel(BaseModel):
         else:
             return value
 
+
+'''Get Hash'''
 
 class GetHashModel(BaseModel):
     message: str

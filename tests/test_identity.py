@@ -17,6 +17,10 @@ class TestIdentity:
         model = self.api_identity.auth_user_and_token()
         assert model.message and model.data is not None
 
+    @allure.title("Auth user code(token)")
+    def test_auth_user_code(self):
+        model = self.api_identity.auth_user_code()
+        assert model.token is not None
 
     @allure.title("Auth user and generate token from admin")
     def test_auth_user_and_token_from_admin(self):

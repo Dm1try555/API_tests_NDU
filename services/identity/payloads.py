@@ -11,6 +11,13 @@ class Payloads:
     }
    print(auth)
 
+   auth_code = \
+       {
+           "login": "13579",
+           "password": "kcme12!.xYez"
+       }
+   print(auth_code)
+
    change_password = \
        {
            "newPassword": "kcme12!.xYez",
