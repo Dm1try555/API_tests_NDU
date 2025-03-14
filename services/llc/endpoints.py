@@ -11,6 +11,7 @@ class Endpoints:
     create_llc = f"{HOST}/llc"
     get_llc_by_id = lambda self, id: f"{HOST}/llc/{id}"
     add_manager_to_LLC = lambda self, llc_id, user_id: f"{HOST}/llc/{llc_id}/managers/{user_id}"
+    add_members_to_LLC = lambda self, llc_id, user_id: f"{HOST}/llc/{llc_id}/members/{user_id}"
 
 
 

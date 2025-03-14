@@ -93,3 +93,16 @@ class AddManagerModel(BaseModel):
         else:
             return value
 
+
+'''Add members to LLC'''
+
+class AddMemberModel(BaseModel):
+    message: str
+    data: str | None
+    @field_validator("message")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
