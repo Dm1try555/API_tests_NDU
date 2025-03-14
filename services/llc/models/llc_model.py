@@ -61,9 +61,9 @@ class LlcIdData(BaseModel):
     fullName: str
     edrpou: str
     managers: list[LlcIdManagers]
-    members: list
+    members: list | None
 
-    @field_validator("id",  "managers", "name", "fullName", "edrpou", "members")
+    @field_validator("id",  "managers", "name", "fullName", "edrpou") #"members"
     def total_count_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")

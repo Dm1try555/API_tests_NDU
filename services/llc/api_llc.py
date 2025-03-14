@@ -57,3 +57,16 @@ class LlcAPI(Helper):
         model = AddManagerModel(**response.json())
         return model
 
+    # @allure.step("Add members to LLC")
+    # def add_members_to_llc(self, llc_id, user_id):
+    #     response = requests.post(
+    #         url=self.endpoints.add_manager_to_LLC(llc_id, user_id),
+    #         headers=self.headers.basic
+    #     )
+    #     print(response.json())
+    #     print(response.url)
+    #     assert response.status_code == 200, response.json()
+    #     self.attach_response(response.json())
+    #     model = AddManagerModel(**response.json())
+    #     return model
+
