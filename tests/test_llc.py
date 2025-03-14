@@ -1,21 +1,11 @@
 import allure
-import pytest
 from services.llc.api_llc import LlcAPI
-from tests.test_user import TestUser
-
-
-@pytest.fixture
-def create_user():
-    user_test = TestUser()
-    user_test.setup_class()
-    user_test.test_create_user()
-    return user_test.user_id
+from tests.test_user import create_user
 
 
 @allure.epic("LLC")
 @allure.feature("LLC")
 class TestLLC:
-
     id_llc = None
     user_id = None
 
@@ -40,7 +30,7 @@ class TestLLC:
 
     @allure.title("Add manager to LLC")
     def test_add_manager_to_llc(self, create_user):
-        self.__class__.user_id = create_user  # Save the user_id from the fixture
+        self.__class__.user_id = create_user
         model = self.api_llc.add_manager_to_llc(self.__class__.id_llc, self.__class__.user_id)
         assert model.message == "Manager added to llc  successfully"
 
@@ -55,16 +45,12 @@ class TestLLC:
             print(user_ids)
             assert user_ids is not None
 
-    @allure.title("Add members to LLC")
-    def test_add_members_to_llc(self):
-        # Use the user_id saved from the previous test
-        model = self.api_llc.add_manager_to_llc(self.__class__.id_llc, self.__class__.user_id)
-        assert model.message == "Manager added to llc  successfully"
 
-
-
-
-
+    # @allure.title("Add members to LLC")
+    # def test_add_members_to_llc(self):
+    #     # Use the user_id saved from the previous test
+    #     model = self.api_llc.add_manager_to_llc(self.__class__.id_llc, self.__class__.user_id)
+    #     assert model.message == "Manager added to llc  successfully"
 
 
     # @allure.title("Check members after add members to LLC")

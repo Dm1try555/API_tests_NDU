@@ -30,7 +30,7 @@ class CreateDocumentData(BaseModel):
     countOfSignaturesForDocument: int
     countOfStampsForDocument: int
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     def check_empty_fields(cls, values):
         required_fields = [
             "id", "name", "documentType", "documentDirection", "documentStatus",
@@ -41,24 +41,29 @@ class CreateDocumentData(BaseModel):
                 raise ValueError(f"Field '{field}' cannot be empty or None.")
         return values
 
-    @field_validator("capitalShareLLCId", "capitalShareSize", "escrowAccountNumber", "escrowDocumentNumber",
-        "escrowDocumentDate", "counterpartyIdentifyNumber", "counterpartyName",
-        "counterpartyDocumentNumber", "counterpartyDocumentDate", "counterpartyDocumentUrl",
-        "messageCdData", "messageCdTopic", "messageCdFileUrl")
-    def check_optional_fields(cls, value, field):
-        if value == "" or value is None:
-            return None
-        return value
+    @model_validator(mode="before")
+    def check_optional_fields(cls, values):
+        optional_fields = [
+            "capitalShareLLCId", "capitalShareSize", "escrowAccountNumber", "escrowDocumentNumber",
+            "escrowDocumentDate", "counterpartyIdentifyNumber", "counterpartyName",
+            "counterpartyDocumentNumber", "counterpartyDocumentDate", "counterpartyDocumentUrl",
+            "messageCdData", "messageCdTopic", "messageCdFileUrl"
+        ]
+        for field in optional_fields:
+            if values.get(field) == "":
+                values[field] = None
+        return values
 
 class CreateDocumentModel(BaseModel):
     message: str
     data: CreateDocumentData
+
     @field_validator("message")
+    @classmethod
     def message_is_valid(cls, value):
-        if value == "" or value is None:
-            raise ValueError("Field is empty")
-        else:
-            return value
+        if not value.strip():
+            raise ValueError("Field 'message' cannot be empty")
+        return value
 
 
 '''Delete Document'''
