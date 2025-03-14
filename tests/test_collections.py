@@ -8,7 +8,7 @@ class TestCollections:
 
     @classmethod
     def setup_class(cls):
-        cls.api_collections = CollectionsAPI()  # Создаем объект API
+        cls.api_collections = CollectionsAPI()
 
     @allure.title("Get collections")
     def test_get_collections(self):

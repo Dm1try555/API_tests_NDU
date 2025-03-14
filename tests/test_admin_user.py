@@ -16,14 +16,14 @@ class TestAdminUser:
     @allure.title("Create new user from admin portal")
     def user_id(self):
         user = self.api_adminuser.create_user_from_admin()
-        print(f"Створений користувач з ID: {user.data.id}")
+        print(f"Created user with ID: {user.data.id}")
         return user.data.id
 
     @allure.title("Test user creation")
     def test_create_user_from_admin(self, user_id):
-        assert user_id is not None, "Помилка: ID користувача не створений!"
+        assert user_id is not None, "Error: User ID not created!"
         get_user_by_id = self.api_adminuser.get_user_by_id(user_id)
-        assert get_user_by_id.data.id == user_id, "Помилка: ID користувача не збігається!"
+        assert get_user_by_id.data.id == user_id, "Error: User IDs do not match!"
 
     @allure.title("Check new user by ID")
     def test_check_create_user_by_id(self, user_id):
@@ -46,9 +46,6 @@ class TestAdminUser:
         first_role = check_role.data.roles[0]
 
         assert first_role.id == 3
-
-
-
 
 
 
