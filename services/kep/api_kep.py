@@ -70,8 +70,8 @@ class KepAPI(Helper):
             url=self.endpoints.get_kep_integration,
             headers=self.headers.basic,
         )
-        print(response.json())
+        # print(response.json())
         assert response.status_code == 200, response.json()
-        self.attach_response(response.json())
-        model = GetKepIntegrationListModel.model_validate(response.json())
-        return model
+        # self.attach_response(response.json())
+        # model = GetKepIntegrationListModel.model_validate(response.json())
+        return #model
