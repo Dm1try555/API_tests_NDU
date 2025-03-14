@@ -6,6 +6,7 @@ import os
 
 FILE_PATH = "text_file.txt"
 
+
 @pytest.fixture
 def create_test_file():
     """Create test file before test and delete after completing"""
@@ -19,7 +20,6 @@ def create_test_file():
 @allure.feature("File")
 class TestFile:
 
-
     @classmethod
     def setup_class(cls):
         cls.api_file = FileAPI()
@@ -29,14 +29,22 @@ class TestFile:
         """API File Test Method"""
         model = self.api_file.upload_new_file(create_test_file)
         assert model.message == "Файл успішно завантажено."
-        print("Файл успішно завантажено:", model.data)
-        get_id = re.search(r"/file/([a-f0-9\-]+)$", model.data).group(1)
+        print("File successfully uploaded:", model.data)
+
+
+        file_url = model.data.url
+        get_id_match = re.search(r"/file/([a-f0-9\-]+)$", file_url)
+        assert get_id_match, "Failed to extract file ID!"
+        get_id = get_id_match.group(1)
         print("File ID:", get_id)
+
         check = self.api_file.get_file_by_id(get_id)
-        print("Створений файл відображається по ID:", get_id)
+        print("The created file is displayed by ID:", get_id)
+
         delete = self.api_file.delete_file_by_id(get_id)
-        print("Файл видалений по ID:", get_id)
+        print("File deleted by ID:", get_id)
+
         check_after_delete = self.api_file.get_file_by_id_after_delete(get_id)
-        print("Файлу не існує:", get_id)
+        print("The file does not exist:", get_id)
 
 
