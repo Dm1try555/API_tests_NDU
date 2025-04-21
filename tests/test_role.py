@@ -1,7 +1,6 @@
 import allure
 import pytest
 from services.role.api_role import RoleAPI
-import uuid
 from faker import Faker
 
 fake = Faker()
@@ -64,6 +63,7 @@ class TestRole:
 
     @allure.title("Verify Role change by ID")
     def test_get_role_change_by_id(self, create_role):
+        change = self.api_role.change_role_by_id(create_role)
         model = self.api_role.get_role_by_id(create_role)
         assert model and model.data, "Failed to retrieve role by ID after change"
         assert model.data.id == create_role, f"Role ID mismatch after change: {model.data.id} != {create_role}"
