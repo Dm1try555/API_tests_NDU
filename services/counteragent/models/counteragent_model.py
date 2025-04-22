@@ -1,7 +1,7 @@
 from typing import Optional, Union
 from pydantic import BaseModel, field_validator
 
-
+# UserModel
 class GetUserItem(BaseModel):
     id: int
     firstName: str
@@ -43,6 +43,8 @@ class GetUserModel(BaseModel):
             return value
 
 
+
+#CounterAgentModel
 class CounterAgentData(BaseModel):
     identityNumber: str
     fullName: str
@@ -58,7 +60,7 @@ class CounterAgentModel(BaseModel):
     message: str
     data: list[CounterAgentData]
 
-    @field_validator("message")
+    @field_validator("message", "data")
     def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")

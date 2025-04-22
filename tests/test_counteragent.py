@@ -23,9 +23,9 @@ class TestCounterAgent:
     @allure.title("Get counter agent by identity number")
     def test_counter_agent(self, get_identity_number):
         identity_number = get_identity_number
-        response = self.api_counteragent.get_counter_agent_by_id(identity_number=identity_number)
-        print(response)
-        assert get_identity_number == response.data[0].identityNumber
+        model = self.api_counteragent.get_counter_agent_by_id(identity_number=identity_number)
+        print(model)
+        assert get_identity_number == model.data[0].identityNumber
 
 
 
