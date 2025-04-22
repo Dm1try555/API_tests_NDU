@@ -108,8 +108,9 @@ class AdminUserAuditItem(BaseModel):
     createdBy: str
     createDataTime: str
     description: str
+    documentStatus: str
 
-    @field_validator("id", "createdBy", "createDataTime", "description")
+    @field_validator("id", "createdBy", "createDataTime", "description", "documentStatus")
     def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -120,7 +121,7 @@ class AdminUserAuditData(BaseModel):
     totalCount: int
     items: list[AdminUserAuditItem]
 
-    @field_validator("totalCount")
+    @field_validator("totalCount", "items")
     def total_count_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -131,7 +132,7 @@ class AdminUserAuditModel(BaseModel):
     message: str
     data: AdminUserAuditData
 
-    @field_validator("message")
+    @field_validator("message", "data")
     def message_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -139,7 +140,7 @@ class AdminUserAuditModel(BaseModel):
             return value
 
 
-
+#CHANGE PASSWORD
 class AdminUserPassword(BaseModel):
     message: str
     data: None
@@ -152,7 +153,7 @@ class AdminUserPassword(BaseModel):
             return value
 
 
-
+#CHANGE ROLES
 class ChangeAdminUserRoles(BaseModel):
     id: int
     name: str
@@ -164,7 +165,7 @@ class ChangeAdminUserRoles(BaseModel):
         else:
             return value
 
-
+#CHANGE USER
 class ChangeAdminUserData(BaseModel):
     id: int
     firstName: str
@@ -180,11 +181,12 @@ class ChangeAdminUserData(BaseModel):
     lastLoginTime: Optional[str] = None
     lastPasswordChangeTime: Optional[str] = None
     creationTime: str
-    roles: list[ChangeAdminUserRoles]
+    updatedTime: str
+    roles: Optional[list[ChangeAdminUserRoles]] = None
 
 
     @field_validator("id", "firstName", "lastName", "identityNumber", "login",
-                     "isNotifyEmail", "language", "status", "creationTime")
+                     "isNotifyEmail", "language", "status", "creationTime", "updatedTime")
     def fields_are_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")

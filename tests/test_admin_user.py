@@ -22,37 +22,56 @@ class TestAdminUser:
     @allure.title("Test user creation")
     def test_create_user_from_admin(self, user_id):
         assert user_id is not None, "Error: User ID not created!"
-        get_user_by_id = self.api_adminuser.get_user_by_id(user_id)
-        assert get_user_by_id.data.id == user_id, "Error: User IDs do not match!"
+        model = self.api_adminuser.get_user_by_id(user_id)
+        assert model.data.id == user_id, "Error: User IDs do not match!"
 
     @allure.title("Check new user by ID")
     def test_check_create_user_by_id(self, user_id):
-        self.api_adminuser.get_user_by_id(user_id)
+        model = self.api_adminuser.get_user_by_id(user_id)
 
-    @allure.title("Create toggle status")
-    def test_create_status(self, user_id):
-        self.api_adminuser.create_status_inactive(user_id)
-        self.api_adminuser.get_status_inactive(user_id)
-        self.api_adminuser.create_status_need_change_password(user_id)
-        self.api_adminuser.get_status_need_change_password(user_id)
-        self.api_adminuser.create_status_active(user_id)
-        self.api_adminuser.get_status_active(user_id)
+    @allure.title("Change toggle status and check status")
+    def test_change_status(self, user_id):
+        model_inactive = self.api_adminuser.create_status_inactive(user_id)
+        model_check = self.api_adminuser.get_status_inactive(user_id)
+        model_change_pass = self.api_adminuser.create_status_need_change_password(user_id)
+        model_check = self.api_adminuser.get_status_need_change_password(user_id)
+        model_active = self.api_adminuser.create_status_active(user_id)
+        model_check = self.api_adminuser.get_status_active(user_id)
 
-    @allure.title("Change role for user")
+
+    @allure.title("Get audit log by user ID")
+    def test_get_audit_by_id(self, user_id):
+        model = self.api_adminuser.get_audit_by_id(user_id)
+
+
+
+    @allure.title("Update user details and check details")
+    def test_update_details(self, user_id):
+        model = self.api_adminuser.update_user_info(user_id)
+        check_details = self.api_adminuser.get_user_by_id(user_id)
+        assert model.data.firstName == check_details.data.firstName, "Error: First names do not match!"
+        assert model.data.lastName == check_details.data.lastName, "Error: Last names do not match!"
+        assert model.data.middleName == check_details.data.middleName, "Error: Middle names do not match!"
+        assert model.data.identityNumber == check_details.data.identityNumber, "Error: Identity numbers do not match!"
+        assert model.data.login == check_details.data.login, "Error: Logins do not match!"
+
+
+
+    @allure.title("Change role for user and check role")
     def test_change_role_user(self, user_id):
-        change_role = self.api_adminuser.change_role_user(user_id)
+        model = self.api_adminuser.change_role_user(user_id)
         check_role = self.api_adminuser.get_role_user(user_id)
-        assert check_role.data.roles is not None and len(check_role.data.roles) > 0
-        first_role = check_role.data.roles[0]
-
-        assert first_role.id == 3
-
-
+        
+    @allure.title("Change password for user and check password")
+    def test_change_password(self, user_id):
+        model = self.api_adminuser.update_password(user_id)
 
 
 
-@allure.epic("GetAdminUser")
-@allure.feature("GetAdminUser")
+
+
+@allure.epic("GetAdminUserByFilters")
+@allure.feature("GetAdminUserByFilters")
 class TestGetAdminUser:
 
     @classmethod

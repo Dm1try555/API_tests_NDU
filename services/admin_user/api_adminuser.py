@@ -70,7 +70,8 @@ class AdminUserAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = CreateAdminUserModel(**response.json())
+        model = CreateAdminUserModel(**response.json()) 
+        assert model.data.status == "Active"
         return model
 
     @allure.step("Create status = Inactive")
@@ -99,6 +100,7 @@ class AdminUserAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = CreateAdminUserModel(**response.json())
+        assert model.data.status == "Inactive"
         return model
 
     @allure.step("Create status = NeedChangePassword")
@@ -127,6 +129,7 @@ class AdminUserAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = CreateAdminUserModel(**response.json())
+        assert model.data.status == "NeedChangePassword"
         return model
 
 
@@ -141,6 +144,9 @@ class AdminUserAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = AdminUserAuditModel(**response.json())
+        assert model.message == "Аудит користувача успішно отримано."
+        assert model.data.totalCount > 0
+        assert model.data.items is not None and len(model.data.items) > 0
         return model
 
 
@@ -270,8 +276,8 @@ class AdminUserAPI(Helper):
         model = GetAdminUserModel(**response.json())
         return model
 
-    @allure.step("Change admin user info")
-    def change_user_info(self, id):
+    @allure.step("Update user details by ID")
+    def update_user_info(self, id):
         response = requests.put(
             url=self.endpoints.change_info_user(id),
             headers=self.headers.basic,
@@ -295,7 +301,7 @@ class AdminUserAPI(Helper):
         )
         assert response.status_code == 200
         return
-
+    
     @allure.step("Get user by ID")
     def get_role_user(self, id):
         response = requests.get(
@@ -306,4 +312,28 @@ class AdminUserAPI(Helper):
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = ChangeAdminUserModel(**response.json())
+        assert model.data.roles is not None and len(model.data.roles) > 0
+        first_role = model.data.roles[0]
+        assert first_role.id == 3
         return model
+
+
+
+    @allure.step("Update password by ID")
+    def update_password(self, id):
+        response = requests.put(
+            url=self.endpoints.change_password(id),
+            headers=self.headers.basic,
+            json=self.payloads.change_password
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = AdminUserPassword(**response.json())
+        assert model.message == "Пароль успішно змінено."
+        return model
+    
+
+
+
+    

@@ -10,7 +10,7 @@ class CreateAccountData(BaseModel):
     login: str
     phoneNumber: str
     email: str
-    isNotifyEmail: bool = True
+    isNotifyEmail: bool
     language: str
     status: str
 

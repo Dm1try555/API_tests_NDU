@@ -44,4 +44,5 @@ class AccountAPI(Helper):
         self.attach_response(response.json())
         model = CreateAccountModel(**response.json())
         assert model.message == "Дані успішно отримано."
+        assert isinstance(model.data.id, int), f"Очікувався тип 'int', але отримано {type(model.data.id)}"
         return model

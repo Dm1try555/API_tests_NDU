@@ -7,7 +7,7 @@ class Payloads:
     create_account = {
         "phoneNumber": fake.numerify("+380#########"),
         "email": fake.email(),
-        "isNotifyEmail": True,
+        "isNotifyEmail": True or False,
         "language": "UA"
     }
 
