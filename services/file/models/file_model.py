@@ -1,14 +1,18 @@
 from pydantic import BaseModel, field_validator
 
 
-'''Create File'''
 
+#Create File
 class CreateFileData(BaseModel):
+    id: str
     fileName: str
     contentType: str
     fileSize: str
     url: str
-    @field_validator("fileName", "contentType", "fileSize", "url")
+    extension: str
+    isTemplate: bool
+    printedFileType: str
+    @field_validator("id", "fileName", "contentType", "fileSize", "url", "extension", "isTemplate", "printedFileType")
     def message_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")

@@ -15,7 +15,7 @@ class FileAPI(Helper):
 
     @allure.step("Upload new file")
     def upload_new_file(self, file_path):
-        """API File Upload Method"""
+        
         with open(file_path, "rb") as file:
             files = {"file": (file_path, file, "text/plain")}
             response = requests.post(
@@ -31,7 +31,6 @@ class FileAPI(Helper):
 
     @allure.step("Get file by ID")
     def get_file_by_id(self, id):
-        """API File Upload Method"""
         response = requests.get(
             url=self.endpoints.get_file_by_id(id),
             headers=self.headers.basic,

@@ -26,7 +26,7 @@ class TestFile:
 
     @allure.title("Upload, check and delete new file")
     def test_file(self, create_test_file):
-        """API File Test Method"""
+        
         model = self.api_file.upload_new_file(create_test_file)
         assert model.message == "Файл успішно завантажено."
         print("File successfully uploaded:", model.data)
@@ -45,6 +45,7 @@ class TestFile:
         print("File deleted by ID:", get_id)
 
         check_after_delete = self.api_file.get_file_by_id_after_delete(get_id)
+        assert check_after_delete.title == "Not Found"
         print("The file does not exist:", get_id)
 
 
