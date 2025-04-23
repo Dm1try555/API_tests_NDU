@@ -197,11 +197,11 @@ class GetDocumentItem(BaseModel):
     name: str
     createDataTime: str
     memberName: str
-    llcName: str
+    llcName: str | None
     llcedrpou: str
     documentStatus: str
 
-    @field_validator("id", "name", "createDataTime", "memberName", "llcName", "llcedrpou", "documentStatus")
+    @field_validator("id", "name", "createDataTime", "memberName", "llcedrpou", "documentStatus")
     def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -213,7 +213,7 @@ class GetDocumentData(BaseModel):
     totalCount: int
     items: list[GetDocumentItem]
 
-    @field_validator("totalCount")
+    @field_validator("totalCount", "items")
     def total_count_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -230,3 +230,62 @@ class GetDocumentModel(BaseModel):
         else:
             return value
 
+#Upload Document
+
+class Files(BaseModel):
+    id: str
+    fileName: str
+    contentType: str
+    fileSize: str
+    url: str
+    extension: str
+    isTemplate: bool
+    printedFileType: str
+
+    @field_validator("id", "fileName", "contentType", "fileSize", "url",
+                     "extension", "isTemplate", "printedFileType")
+    def fields_are_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class UploadDocumentData(BaseModel):
+    id: int
+    name: str
+    documentType: str
+    documentDirection: str
+    documentStatus: str
+    llcMemberType: str
+    isPresentOutNum: bool
+    memberId: int
+    llcId: int
+    capitalShareAction: str
+    files: list[Files]
+    p_DocumentName: str
+    p_Is_Mailing_Address_Matches_Location: bool
+    p_TaxResidencyStatusResName: bool
+    p_IsFOP: bool
+    p_TaxResidencyStatusResOwnersName: bool
+
+    @field_validator("id", "name", "documentType", "documentDirection",
+                     "documentStatus", "llcMemberType", "isPresentOutNum",
+                     "memberId", "llcId", "capitalShareAction", "p_DocumentName",
+                     "p_Is_Mailing_Address_Matches_Location", "p_TaxResidencyStatusResName",
+                     "p_IsFOP", "p_TaxResidencyStatusResOwnersName")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class UploadDocumentModel(BaseModel):
+    message: str
+    data: UploadDocumentData
+
+    @field_validator("message", "data")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value

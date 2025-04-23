@@ -8,7 +8,10 @@ class Payloads:
         {
             "documentType": "AccountOpeningOrder",
             "memberId": 10,  #this is Іванченко
-            "llcId": 25        #this is New LLC
+            "memberDocumentNumber": "string",
+            "llcId": 25,        #this is New LLC
+            "llcMemberType": "CATEGORY110"
+
         }
     print(create_new_document)
 

@@ -5,7 +5,7 @@ from utils.helper import Helper
 from services.document.endpoints import Endpoints
 from services.document.payloads import Payloads
 from services.document.models.document_model import CreateDocumentModel, DeleteDocumentModel, CheckDeleteDocumentModel, \
-    CopyDocumentModel, AuditDocumentModel, GetDocumentModel
+    CopyDocumentModel, AuditDocumentModel, GetDocumentModel, UploadDocumentModel
 
 
 class DocumentAPI(Helper):
@@ -16,7 +16,7 @@ class DocumentAPI(Helper):
         self.endpoints = Endpoints()
         self.headers = Headers()
 
-
+    #Category110
     @allure.step("Create new document")
     def create_new_document(self):
         response = requests.post(
@@ -65,6 +65,28 @@ class DocumentAPI(Helper):
         self.attach_response(response.json())
         model = AuditDocumentModel(**response.json())
         return model
+    
+
+    @allure.step("Upload file document by ID")
+    def upload_document_by_id(self, id:int, file_path:str):
+        with open(file_path, 'rb') as f:
+            files = {
+                'file': (file_path.split('/')[-1], f, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            }
+            response = requests.post(
+                url=self.endpoints.upload_document_by_id(id),
+                headers=self.headers.basic,
+                files=files,
+            )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = UploadDocumentModel(**response.json())
+        return model
+    
+
+
+
 
     @allure.step("Delete document by ID")
     def delete_document_by_id(self, id):

@@ -17,7 +17,7 @@ class TestDocument:
         assert model.data.id is not None, "Error: Document ID not created!"
 
         self.__class__.document_id = model.data.id
-        print(f"Созданный документ ID: {self.__class__.document_id}")
+        print(f"Створений документ ID: {self.__class__.document_id}")
 
     @allure.title("Check document by ID")
     def test_check_document_by_id(self):
@@ -40,6 +40,19 @@ class TestDocument:
         assert self.__class__.document_id is not None, "The document was not created."
         model = self.api_document.audit_document_by_id(self.__class__.document_id)
         assert model.message == "Дані отримано."
+
+
+
+    @allure.title("Upload file document by ID")
+    def test_upload_file_document_by_id(self):
+        assert self.__class__.document_id is not None, "The document was not created."
+        file_path = "tests/files/file_upload.docx"
+        model = self.api_document.upload_document_by_id(self.__class__.document_id, file_path)
+        assert model.message == "Файл завантажено"
+        assert len(model.data.files) > 0
+
+
+
 
     @allure.title("Delete document by ID")
     def test_delete_document_by_id(self):
