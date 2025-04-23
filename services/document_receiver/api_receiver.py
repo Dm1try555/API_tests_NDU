@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.document_receiver.endpoints import Endpoints
 from services.document_receiver.payloads import Payloads
-from services.document_receiver.models.document_receiver_model import RejectionLetterModel
+from services.document_receiver.models.document_receiver_model import RejectionLetterModel, ConfirmationLetterModel, StatusLetterModel
 
 
 class DocumentReceiverAPI(Helper):
@@ -32,31 +32,44 @@ class DocumentReceiverAPI(Helper):
         self.attach_response(response.json())
         model = RejectionLetterModel(**response.json())
         return model
+    
+    #confirmation letter
+    @allure.step("Сreate confirmation letter")
+    def create_confirmation_letter(self, key):
+        headers = {
+            **self.headers.basic,
+            "X-API-KEY": key
+        }
+        response = requests.post(
+            url=self.endpoints.confirmation_letter,
+            headers=headers,
+            json=self.payloads.confirmation_letter
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = ConfirmationLetterModel(**response.json())
+        return model
+    
+    #status letter
+    @allure.step("Сreate status letter")
+    def create_status_letter(self, key):
+        headers = {
+            **self.headers.basic,
+            "X-API-KEY": key
+        }
+        response = requests.post(
+            url=self.endpoints.status,
+            headers=headers,
+            json=self.payloads.status
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = StatusLetterModel(**response.json())
+        return model
 
 
-    # @allure.step("Copy document by ID")
-    # def copy_document_by_id(self, id):
-    #     response = requests.put(
-    #         url=self.endpoints.copy_document_by_id(id),
-    #         headers=self.headers.basic,
-    #     )
-    #     print(response.json())
-    #     assert response.status_code == 200, response.json()
-    #     self.attach_response(response.json())
-    #     model = CopyDocumentModel(**response.json())
-    #     return model
-
-    # @allure.step("Audit document by ID")
-    # def audit_document_by_id(self, id):
-    #     response = requests.get(
-    #         url=self.endpoints.audit_document_by_id(id),
-    #         headers=self.headers.basic,
-    #     )
-    #     print(response.json())
-    #     assert response.status_code == 200, response.json()
-    #     self.attach_response(response.json())
-    #     model = AuditDocumentModel(**response.json())
-    #     return model
     
 
 
