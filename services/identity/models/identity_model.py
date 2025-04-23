@@ -72,14 +72,34 @@ class GetHashModel(BaseModel):
         else:
             return value
 
+#*Refresh Token*
 
-# class RefreshTokenModel(BaseModel):
-#     Message: str
-#     Data: Optional[None]
-#
-#     @field_validator("message")
-#     def fields_are_not_empty(cls, value):
-#         if value == "" or value is None:
-#             raise ValueError("Field is empty")
-#         else:
-#             return value
+class RefreshTokenData(BaseModel):
+    id: int
+    userName: str
+    email: str
+    identityNumber: str | None
+    roles: list
+    permissions: str | None
+    isVerified: bool
+    accessToken: str
+    refreshToken: str
+
+
+    @field_validator("id", "userName", "email", "roles", "isVerified", "accessToken", "refreshToken")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class RefreshTokenModel(BaseModel):
+    message: str
+    data: RefreshTokenData
+
+    @field_validator("message", "data")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value

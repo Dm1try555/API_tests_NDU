@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.identity.endpoints import Endpoints
 from services.identity.payloads import Payloads
-from services.identity.models.identity_model import AuthModel, ChangePasswordModel,GetHashModel, AuthCodeModel #RefreshTokenModel
+from services.identity.models.identity_model import AuthModel, ChangePasswordModel,GetHashModel, AuthCodeModel, RefreshTokenModel
 
 
 class IdentityAPI(Helper):
@@ -69,28 +69,32 @@ class IdentityAPI(Helper):
         model = ChangePasswordModel(**response.json())
         return model
 
-    @allure.step("Get hash")
-    def get_hash(self):
-        response = requests.get(
-            url=self.endpoints.get_hash,
-            headers=self.headers.basic
-        )
-        print(response.json())
-        assert response.status_code == 200, response.json()
-        self.attach_response(response.json())
-        model = GetHashModel(**response.json())
-        return model
-
-    # @allure.step("Refresh token")
-    # def refresh_token(self):
-    #     response = requests.post(
-    #         url=self.endpoints.refresh_token,
-    #         headers=self.headers.basic,
-    #         json=self.payloads.refresh_token
+    # @allure.step("Get hash")
+    # def get_hash(self):
+    #     response = requests.get(
+    #         url=self.endpoints.get_hash,
+    #         headers=self.headers.basic
     #     )
     #     print(response.json())
     #     assert response.status_code == 200, response.json()
     #     self.attach_response(response.json())
-    #     model = RefreshTokenModel(**response.json())
+    #     model = GetHashModel(**response.json())
     #     return model
+
+    @allure.step("Refresh token")
+    def refresh_token(self, login, refresh_token):
+        json_data = {
+            "login": login,
+            "refreshToken": refresh_token
+        }
+        response = requests.post(
+            url=self.endpoints.refresh_token,
+            headers=self.headers.basic,
+            json=json_data
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = RefreshTokenModel(**response.json())
+        return model
 

@@ -6,14 +6,14 @@ class Payloads:
 
    auth= \
     {
-        "login": "13579",
+        "login": "141245",
         "password": "kcme12!.xYez"
     }
    print(auth)
 
    auth_code = \
        {
-           "login": "13579",
+           "login": "141245",
            "password": "kcme12!.xYez"
        }
    print(auth_code)
@@ -25,11 +25,11 @@ class Payloads:
        }
    print(change_password)
 
-   refresh_token = \
-       {
-           "login": "13579",
-           "refreshToken": "string"
-       }
-   print(refresh_token)
+#    refresh_token = \
+#        {
+#            "login": "13579",
+#            "refreshToken": "string"
+#        }
+#    print(refresh_token)
 
 
