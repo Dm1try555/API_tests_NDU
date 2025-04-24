@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.llc.endpoints import Endpoints
 from services.llc.payloads import Payloads, Params
-from services.llc.models.llc_model import LlcModel, LlcIdModel ,AddManagerModel, AddMemberModel
+from services.llc.models.llc_model import LlcModel, LlcIdModel ,AddManagerModel, AddMemberModel, MyLlcModel
 
 
 class LlcAPI(Helper):
@@ -70,3 +70,16 @@ class LlcAPI(Helper):
     #     model = AddMemberModel(**response.json())
     #     return model
 
+
+
+    @allure.step("Get my llc")
+    def get_my_llc(self):
+        response = requests.get(
+            url=self.endpoints.get_myllc,
+            headers=self.headers.basic,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = MyLlcModel(**response.json())
+        return model

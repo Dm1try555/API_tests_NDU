@@ -9,7 +9,6 @@ class Payloads:
         "edrpou": "string",
         "name": "string"
     }
-   print(llc)
 
 
 class Params:
@@ -21,7 +20,7 @@ class Params:
         "filter": "",   #str
         "sortOrderType": "Ascending",   #str: Ascending or Descending
     }
-   print(llc_params)
+   
 
 
 
