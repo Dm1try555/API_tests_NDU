@@ -2,7 +2,7 @@ from typing import Union
 from pydantic import BaseModel, field_validator
 
 
-
+# CreateRoleModel
 class CreateRoleData(BaseModel):
     id: int
     name: str
@@ -33,6 +33,8 @@ class CreateRoleModel(BaseModel):
             return value
 
 
+
+# GetRoleModel
 class GetRoleData(BaseModel):
     id: int
     name: str
@@ -64,6 +66,8 @@ class GetRoleModel(BaseModel):
 
 
 
+
+# ChangeRoleData
 class ChangeRoleData(BaseModel):
     id: int
     name: str
@@ -94,6 +98,8 @@ class ChangeRoleModel(BaseModel):
             return value
 
 
+
+# GetRolePermissionsModel
 class GetRolePermissionsModel(BaseModel):
     message: str
     data: list[str]
@@ -106,14 +112,17 @@ class GetRolePermissionsModel(BaseModel):
             return value
 
 
+
+
+#GetRoleFiltersModel
 class GetRoleFiltersItem(BaseModel):
     id: int
     name: str
-    dependCodes: list[str]
-    description: str
+    dependCodes: list[str] | None
+    description: str | None
     createdDate: str
 
-    @field_validator("id", "name", "dependCodes", "description",
+    @field_validator("id", "name",
                      "createdDate" )
     def message_is_valid(cls, value):
         if value == "" or value is None:

@@ -18,7 +18,6 @@ class Payloads:
                 fake.word()
             ]
         }
-    print(create_new_role)
 
     change_role = \
         {

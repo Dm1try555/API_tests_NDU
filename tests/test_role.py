@@ -25,22 +25,6 @@ class Payloads:
         }
 
 
-@pytest.fixture(scope="function")
-def create_role():
-    with allure.step("Create a new role"):
-        api_role = RoleAPI()
-
-        api_role.payloads.create_new_role = Payloads.create_role()
-        model = api_role.create_role()
-
-        assert model and model.data, "Role creation failed or returned empty data"
-        assert model.data.id is not None, f"Role ID is missing or None, received: {model.data}"
-
-        print(f"Created role ID: {model.data.id}")
-
-    yield model.data.id
-
-
 @allure.epic("Role")
 @allure.feature("Role Management")
 class TestRole:
@@ -48,25 +32,35 @@ class TestRole:
     @classmethod
     def setup_class(cls):
         cls.api_role = RoleAPI()
+        cls.id_role = None
+
+    @allure.title("Create new Role")
+    def test_create_role(self):
+        model = self.api_role.create_role()
+        assert model and model.data, "Role creation failed or returned empty data"
+        assert model.data.id is not None, f"Role ID is missing or None, received: {model.data}"
+        self.__class__.id_role = model.data.id
+        print(f"Created role ID: {self.__class__.id_role}")
 
     @allure.title("Check Role by ID")
-    def test_get_role_by_id(self, create_role):
-        model = self.api_role.get_role_by_id(create_role)
+    def test_get_role_by_id(self):
+        assert self.__class__.id_role is not None, "Role ID is None, cannot proceed with test"
+        model = self.api_role.get_role_by_id(self.__class__.id_role)
         assert model and model.data, "Failed to retrieve role by ID"
-        assert model.data.id == create_role, f"Role ID mismatch: {model.data.id} != {create_role}"
+        assert model.data.id == self.__class__.id_role, f"Role ID mismatch: {model.data.id} != {create_role}"
 
     @allure.title("Change Role by ID")
-    def test_change_role_by_id(self, create_role):
-        model = self.api_role.change_role_by_id(create_role)
+    def test_change_role_by_id(self):
+        model = self.api_role.change_role_by_id(self.__class__.id_role)
         assert model and model.data, "Failed to change role by ID"
-        assert model.data.id == create_role, f"Role ID mismatch after change: {model.data.id} != {create_role}"
+        assert model.data.id == self.__class__.id_role, f"Role ID mismatch after change: {model.data.id} != {create_role}"
 
     @allure.title("Verify Role change by ID")
-    def test_get_role_change_by_id(self, create_role):
-        change = self.api_role.change_role_by_id(create_role)
-        model = self.api_role.get_role_by_id(create_role)
+    def test_get_role_change_by_id(self):
+        change = self.api_role.change_role_by_id(self.__class__.id_role)
+        model = self.api_role.get_role_by_id(self.__class__.id_role)
         assert model and model.data, "Failed to retrieve role by ID after change"
-        assert model.data.id == create_role, f"Role ID mismatch after change: {model.data.id} != {create_role}"
+        assert model.data.id == self.__class__.id_role, f"Role ID mismatch after change: {model.data.id} != {create_role}"
 
     @allure.title("Get all Role permissions")
     def test_get_role_permissions(self):
