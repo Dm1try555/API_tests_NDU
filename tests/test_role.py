@@ -47,37 +47,43 @@ class TestRole:
         assert self.__class__.id_role is not None, "Role ID is None, cannot proceed with test"
         model = self.api_role.get_role_by_id(self.__class__.id_role)
         assert model and model.data, "Failed to retrieve role by ID"
-        assert model.data.id == self.__class__.id_role, f"Role ID mismatch: {model.data.id} != {create_role}"
+        assert model.data.id == self.__class__.id_role, f"Role ID mismatch: {model.data.id} != {self.__class__.id_role}"
 
     @allure.title("Change Role by ID")
     def test_change_role_by_id(self):
         model = self.api_role.change_role_by_id(self.__class__.id_role)
         assert model and model.data, "Failed to change role by ID"
-        assert model.data.id == self.__class__.id_role, f"Role ID mismatch after change: {model.data.id} != {create_role}"
+        assert model.data.id == self.__class__.id_role, f"Role ID mismatch after change: {model.data.id} != {self.__class__.id_role}"
 
     @allure.title("Verify Role change by ID")
     def test_get_role_change_by_id(self):
         change = self.api_role.change_role_by_id(self.__class__.id_role)
         model = self.api_role.get_role_by_id(self.__class__.id_role)
         assert model and model.data, "Failed to retrieve role by ID after change"
-        assert model.data.id == self.__class__.id_role, f"Role ID mismatch after change: {model.data.id} != {create_role}"
+        assert model.data.id == self.__class__.id_role, f"Role ID mismatch after change: {model.data.id} != {self.__class__.id_role}"
 
     @allure.title("Get all Role permissions")
     def test_get_role_permissions(self):
         model = self.api_role.get_role_permissions()
         assert model and model.data, "Role permissions data is empty"
+        assert isinstance(model.data, list), "Role permissions data is not a list"
+        assert model.data is not None, "Role permissions data is None"
         assert model.message == "Дані успішно отримано", f"Unexpected message: {model.message}"
 
     @allure.title("Get admin Role permissions")
     def test_get_admin_role_permissions(self):
         model = self.api_role.get_admin_role_permissions()
         assert model and model.data, "Admin role permissions data is empty"
+        assert isinstance(model.data, list), "Admin role permissions data is not a list"
+        assert model.data is not None, "Admin role permissions data is None"
         assert model.message == "Дані успішно отримано", f"Unexpected message: {model.message}"
 
     @allure.title("Get client Role permissions")
     def test_get_client_role_permissions(self):
         model = self.api_role.get_client_role_permissions()
         assert model and model.data, "Client role permissions data is empty"
+        assert isinstance(model.data, list), "Client role permissions data is not a list"
+        assert model.data is not None, "Client role permissions data is None"
         assert model.message == "Дані успішно отримано", f"Unexpected message: {model.message}"
 
     @allure.title("Get list of roles")
