@@ -2,6 +2,22 @@ from typing import Union
 from pydantic import BaseModel, field_validator
 
 
+
+#Create LLC
+class LlcCreateModel(BaseModel):
+    Message: str
+    Data: str | None
+    @field_validator("Message")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+
+
+
+
 #'''Get all LLCs by filter'''
 
 class LlcItem(BaseModel):

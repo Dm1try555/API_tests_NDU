@@ -14,17 +14,16 @@ class Params:
             "orderBy": "",  # str
             "sortOrderType": "Ascending",  # str: Ascending or Descending
         }
-    print(signature_params)
+    
 
 
 class Payloads:
     create_signature = \
         {
-            "llcId": "string",
+            "llcId": ,
             "countOfSignaturesForDocument": random.randint(1, 4),
             "countOfStampsForDocument": random.randint(1, 2)
         }
-    print(create_signature)
 
 
     change_signature = \
@@ -32,4 +31,3 @@ class Payloads:
         "countOfSignaturesForDocument": random.randint(1, 4),
         "countOfStampsForDocument": random.randint(1, 2)
     }
-    print(change_signature)

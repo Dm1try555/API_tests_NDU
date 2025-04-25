@@ -14,6 +14,19 @@ class TestLLC:
         cls.id_llc = None
         cls.user_id = None
 
+
+
+
+    @allure.title("Create LLC")
+    def test_create_llc(self):
+        model = self.api_llc.create_llc()
+        assert model.Message == "Value cannot be null. (Parameter 'entity')"
+        assert model.Data is None
+        check = self.api_llc.get_llc_by_filter()
+        
+
+
+
     @allure.title("Get llc by filter")
     def test_llc_by_filter(self):
         model = self.api_llc.get_llc_by_filter()

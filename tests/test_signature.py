@@ -5,13 +5,13 @@ from services.signature.api_signature import SignatureAPI
 @allure.epic("Signature-system")
 @allure.feature("Signature")
 class TestSignature:
-    signature_id = None
-
+    
 
     @classmethod
     def setup_class(cls):
 
         cls.api_signature = SignatureAPI()
+        cls.signature_id = None
 
 
     @allure.title("Create signature")

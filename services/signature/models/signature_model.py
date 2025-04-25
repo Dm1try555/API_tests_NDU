@@ -1,10 +1,9 @@
-from typing import Optional, Union
 from pydantic import BaseModel, field_validator
 
 
 
-'''Get Signature System'''
 
+#'Get Signature System'
 class GetSignatureItemModel(BaseModel):
     id: int
     name: str
@@ -44,8 +43,8 @@ class GetSignatureModel(BaseModel):
         else:
             return value
 
-'''Get Signature by ID'''
 
+#'Get Signature by ID'
 class GetSignatureByIdModel(BaseModel):
     message: str
     data: GetSignatureItemModel
@@ -59,8 +58,8 @@ class GetSignatureByIdModel(BaseModel):
 
 
 
-'''Create Signature System'''
 
+#'Create Signature System'
 class CreateSignatureData(BaseModel):
     id: int
     name: str
@@ -93,8 +92,8 @@ class CreateSignatureModel(BaseModel):
 
 
 
-'''Change Signature System'''
 
+#'Change Signature System'
 class ChangeSignatureData(BaseModel):
     id: int
     name: str
@@ -126,8 +125,7 @@ class ChangeSignatureModel(BaseModel):
             return value
 
 
-'''Delete Signature by ID'''
-
+#'Delete Signature System'
 class DeleteSignatureModel(BaseModel):
     message: str
     data: str | None

@@ -6,8 +6,8 @@ class Payloads:
 
    llc= \
     {
-        "edrpou": "string",
-        "name": "string"
+        "edrpou": "TestEdrpou", 
+        "name": "TestName",
     }
 
 
