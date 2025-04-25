@@ -97,15 +97,15 @@ class CreateSignatureModel(BaseModel):
 class ChangeSignatureData(BaseModel):
     id: int
     name: str
-    llcId: int
+    llcId: int | None
     createdOn: str
-    identifier: str
+    identifier: str | None
     countOfSignaturesForDocument: int
     countOfStampsForDocument: int
     isDefaultPhysicalPerson: bool
     isDefaultJuridicalPerson: bool
 
-    @field_validator("id", "name", "llcId", "createdOn", "identifier", "countOfSignaturesForDocument",
+    @field_validator("id", "name", "createdOn", "countOfSignaturesForDocument",
                      "countOfStampsForDocument", "isDefaultPhysicalPerson", "isDefaultJuridicalPerson")
     def fields_are_valid(cls, value):
         if value == "" or value is None:

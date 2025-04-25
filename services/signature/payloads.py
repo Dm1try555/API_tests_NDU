@@ -20,7 +20,7 @@ class Params:
 class Payloads:
     create_signature = \
         {
-            "llcId": ,
+            "llcId": "16",
             "countOfSignaturesForDocument": random.randint(1, 4),
             "countOfStampsForDocument": random.randint(1, 2)
         }

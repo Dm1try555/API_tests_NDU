@@ -46,9 +46,9 @@ class SignatureAPI(Helper):
         return model
 
     @allure.step("Change signature by SignatureSystemID")
-    def change_signature_by_id(self, id):
+    def change_signature_by_id(self, signature_id):
         response = requests.put(
-            url=self.endpoints.change_signature_by_id(id),
+            url=self.endpoints.change_signature_by_id(signature_id),
             headers=self.headers.basic,
             json=self.payloads.change_signature
         )
