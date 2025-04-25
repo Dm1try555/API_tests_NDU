@@ -19,7 +19,7 @@ class GetUserRoles(BaseModel):
 class GetUserItem(BaseModel):
     id: int
     firstName: str
-    middleName: Union[str, None]
+    middleName: str
     lastName: str
     identityNumber: str
     login: str
@@ -27,7 +27,7 @@ class GetUserItem(BaseModel):
     status: str
     roles: list[GetUserRoles]
 
-    @field_validator("id", "firstName", "lastName", "identityNumber", "login", "creationTime", "roles", "status")
+    @field_validator("id", "firstName", "lastName", "identityNumber", "login", "creationTime", "roles", "status", "middleName") 
     def fields_are_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -47,6 +47,7 @@ class GetUserData(BaseModel):
 
 class GetUserModel(BaseModel):
     message: str
+    innerMessage: str | None
     data: GetUserData
 
     @field_validator("message", "data")
@@ -69,8 +70,8 @@ class CreateUserData(BaseModel):
     lastName: str
     identityNumber: str
     login: str
-    phoneNumber: Union[str, None]
-    email: Union[str, None]
+    phoneNumber: str | None
+    email: str | None
     isNotifyEmail: bool
     language: str
     status: str
@@ -86,6 +87,7 @@ class CreateUserData(BaseModel):
 class CreateUserModel(BaseModel):
 
     message: str
+    innerMessage: str | None
     data: CreateUserData
 
     @field_validator("message", "data")
