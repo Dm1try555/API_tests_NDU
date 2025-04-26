@@ -48,7 +48,7 @@ class TestPrintedForms:
 
         dodatok_22 = self.api_printed_forms.get_printed_forms_by_type("QuestionnaireForm")
         assert "dodatok-22" in dodatok_22.headers.get("content-disposition", ""), "Filename for QuestionnaireForm is incorrect"
-        
+
         dodatok_23 = self.api_printed_forms.get_printed_forms_by_type("AccountOpeningOrder")
         assert "dodatok-23" in dodatok_23.headers.get("content-disposition", ""), "Filename for AccountOpeningOrder is incorrect"
 
@@ -64,37 +64,3 @@ class TestPrintedForms:
         dodatok_30 = self.api_printed_forms.get_printed_forms_by_type("AccountProfileLegalNonResident")
         assert "dodatok-30" in dodatok_30.headers.get("content-disposition", ""), "Filename for AccountProfileLegalNonResident is incorrect"
 
-
-
-
-    # @allure.title("Change User Info by ID")
-    # def test_change_user_info(self):
-    #     value = Payloads.change_info_user
-    #     model = self.api_user.change_user_info_by_id(self.__class__.user_id)
-    #     assert model.message == "Користувача успішно оновлено."
-    #     assert model.data is not None, "User data is None"
-    #     assert model.data.id == self.__class__.user_id, "The ID in the response does not match the expected one"
-    #     assert model.data.firstName == value["firstName"], "First name does not match"
-    #     assert model.data.middleName == value["middleName"], "Middle name does not match"
-    #     assert model.data.lastName == value["lastName"], "Last name does not match"
-    #     assert model.data.identityNumber == value["identityNumber"], "Identity number does not match"
-    #     assert model.data.login == value["login"], "Login does not match"
-
-    # @allure.title("Check User Info by ID after change")
-    # def test_get_user_info_by_id(self):
-    #     model = self.api_user.get_user_by_id(self.__class__.user_id)
-    #     assert model.message == "Користувача успішно отримано."
-    #     assert model.data is not None, "User data is None"
-    #     assert model.data.id == self.__class__.user_id, "The ID in the response does not match the expected one"
-    #     assert model.data.firstName == Payloads.change_info_user["firstName"], "First name does not match"
-    #     assert model.data.middleName == Payloads.change_info_user["middleName"], "Middle name does not match"
-    #     assert model.data.lastName == Payloads.change_info_user["lastName"], "Last name does not match"
-    #     assert model.data.identityNumber == Payloads.change_info_user["identityNumber"], "Identity number does not match"
-    #     assert model.data.login == Payloads.change_info_user["login"], "Login does not match"
-        
-
-
-    # @allure.title("Get Users list by filters")
-    # def test_get_users_list(self):
-    #     model = self.api_user.get_users_by_default_filters()
-    #     assert model.message == "Дані успішно отримано."
