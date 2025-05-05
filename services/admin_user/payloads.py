@@ -11,10 +11,9 @@ class Payloads:
           "firstName": fake.first_name(),
           "lastName": fake.last_name(),
           "rolesId": [
-            6
+            1
           ]
     }
-    print(create_user_from_admin)
 
 
     change_password = \
@@ -22,7 +21,6 @@ class Payloads:
             "newPassword": fake.password(special_chars=True, digits=True, upper_case=True, lower_case=True),  # length=14,
 
         }
-    print(change_password)
 
     change_info_user_from_admin = \
         {
@@ -32,6 +30,5 @@ class Payloads:
             "identityNumber": fake.ssn(),
             "login": fake.user_name()
         }
-    print(change_info_user_from_admin)
 
 

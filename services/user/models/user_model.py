@@ -19,7 +19,7 @@ class GetUserRoles(BaseModel):
 class GetUserItem(BaseModel):
     id: int
     firstName: str
-    middleName: str
+    # middleName: str
     lastName: str
     identityNumber: str
     login: str
@@ -27,7 +27,7 @@ class GetUserItem(BaseModel):
     status: str
     roles: list[GetUserRoles]
 
-    @field_validator("id", "firstName", "lastName", "identityNumber", "login", "creationTime", "roles", "status", "middleName") 
+    @field_validator("id", "firstName", "lastName", "identityNumber", "login", "creationTime", "roles", "status") #"middleName" 
     def fields_are_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")

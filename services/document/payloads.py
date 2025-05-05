@@ -7,12 +7,10 @@ class Payloads:
     create_new_document= \
         {
             "documentType": "AccountOpeningOrder",
-            "memberId": 10,  #this is Іванченко
+            "memberAccountReference": "string",
             "memberDocumentNumber": "string",
-            "llcId": 25,        #this is New LLC
+            "llcId": 1,
             "llcMemberType": "CATEGORY110"
-
         }
-    print(create_new_document)
 
 

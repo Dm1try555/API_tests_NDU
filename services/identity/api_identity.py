@@ -69,17 +69,6 @@ class IdentityAPI(Helper):
         model = ChangePasswordModel(**response.json())
         return model
 
-    # @allure.step("Get hash")
-    # def get_hash(self):
-    #     response = requests.get(
-    #         url=self.endpoints.get_hash,
-    #         headers=self.headers.basic
-    #     )
-    #     print(response.json())
-    #     assert response.status_code == 200, response.json()
-    #     self.attach_response(response.json())
-    #     model = GetHashModel(**response.json())
-    #     return model
 
     @allure.step("Refresh token")
     def refresh_token(self, login, refresh_token):

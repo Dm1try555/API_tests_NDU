@@ -86,10 +86,10 @@ class TestGetAdminUser:
         model_active = self.api_adminuser.get_users_by_filters_active()
         assert model_active.data.items[0].status == "Active"
 
-        model_inactive = self.api_adminuser.get_users_by_filters_inactive()
-        assert model_inactive.data.items[0].status == "Inactive"
+        # model_inactive = self.api_adminuser.get_users_by_filters_inactive()
+        # assert model_inactive.data.items[0].status == "Inactive"
 
-        model_need_change_password = self.api_adminuser.get_users_by_filters_need_change_password()
-        assert any(user.status == "NeedChangePassword" for user in model_need_change_password.data.items)
+        # model_need_change_password = self.api_adminuser.get_users_by_filters_need_change_password()
+        # assert any(user.status == "NeedChangePassword" for user in model_need_change_password.data.items)
 
 

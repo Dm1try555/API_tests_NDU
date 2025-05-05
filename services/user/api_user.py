@@ -179,7 +179,7 @@ class UserAPI(Helper):
         response = requests.put(
             url=self.endpoints.change_role_by_id(id),
             headers=self.headers.basic,
-            params={"roleId": 3}
+            params={"roleId": 2}
         )
         print(response.url)
         assert response.status_code == 200

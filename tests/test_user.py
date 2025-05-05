@@ -104,7 +104,7 @@ class TestUser:
         assert model.data is not None, "User data is None"
         assert model.data.roles is not None, "Roles data is None"
         assert len(model.data.roles) > 0, "No roles found in response"
-        assert model.data.roles[0].name == "test"
+        assert model.data.roles[0].name == "Recruitment consultant"
         
 
     @allure.title("Change User Password by ID")

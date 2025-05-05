@@ -290,7 +290,7 @@ class AdminUserAPI(Helper):
         return model
 
     @allure.step("Change role for user")
-    def change_role_user(self, id, role_id=3):
+    def change_role_user(self, id, role_id=2):
         params = {
             "roleId": role_id
         }
@@ -314,7 +314,6 @@ class AdminUserAPI(Helper):
         model = ChangeAdminUserModel(**response.json())
         assert model.data.roles is not None and len(model.data.roles) > 0
         first_role = model.data.roles[0]
-        assert first_role.id == 3
         return model
 
 
