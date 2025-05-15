@@ -5,7 +5,7 @@ from utils.helper import Helper
 from services.document.endpoints import Endpoints
 from services.document.payloads import Payloads
 from services.document.models.document_model import CreateDocumentModel, DeleteDocumentModel, CheckDeleteDocumentModel, \
-    CopyDocumentModel, AuditDocumentModel, GetDocumentModel, UploadDocumentModel
+    CopyDocumentModel, AuditDocumentModel, GetDocumentModel, UpdateDocumentModel, ChangeDocumentModel
 
 
 class DocumentAPI(Helper):
@@ -81,7 +81,7 @@ class DocumentAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = UploadDocumentModel(**response.json())
+        model = UpdateDocumentModel(**response.json())
         return model
     
 
@@ -114,9 +114,9 @@ class DocumentAPI(Helper):
 
     @allure.step("Get document list by default filters")
     def get_document_by_default_filters(self, max_result_count=None, skip_count=None, sort_order=None,
-                                                  sort_order_type= None, document_direction_type=None,
-                                                  filter_data=None, filter_edrpou=None, filter_llc_name=None,
-                                                  filter_number=None, filter_username=None, start_cr_date=None,
+                                        sort_order_type= None, document_direction_type=None,
+                                        filter_data=None, filter_edrpou=None, filter_llc_name=None,
+                                        filter_number=None, filter_username=None, start_cr_date=None,
                                         end_cr_date=None, start_upd_date=None, end_upd_date=None,
                                         status=None, doc_type = None):
         params = {
@@ -150,3 +150,34 @@ class DocumentAPI(Helper):
         return model
 
 
+    @allure.step("Get printed form by ID")
+    def get_printed_form_by_id(self, id):
+        response = requests.get(
+            url=self.endpoints.get_printed_document_by_id(id),
+            headers=self.headers.basic,
+        )
+        print(response.url)
+        assert response.status_code == 200, f"Unexpected status code: {response.status_code}"
+        assert response.headers.get("accept-ranges") == "bytes", f"Unexpected accept-ranges: {response.headers.get('accept-ranges')}"
+        assert response.headers. get("content-disposition") == "inline", f"Unexpected content-disposition: {response.headers.get('content-disposition')}"
+        assert response.headers.get("content-type") == "application/pdf", f"Unexpected content-type: {response.headers.get('content-type')}"
+        assert response.headers.get("server") == "openresty", f"Unexpected server: {response.headers.get('server')}"
+        assert response.headers.get("strict-transport-security") == "max-age=63072000; preload", f"Unexpected strict-transport-security: {response.headers.get('strict-transport-security')}"
+        assert response.headers.get("x-served-by") == "llc-cabinet-api-mwt.csd.ua", f"Unexpected x-served-by: {response.headers.get('x-served-by')}"
+        self.attach_response(response.url)
+        return response
+    
+    
+
+    @allure.step("Change document by ID")
+    def change_document(self):
+        response = requests.put(
+            url=self.endpoints.change_document_by_id,
+            headers=self.headers.basic,
+            json=self.payloads.change_document_by_id
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = ChangeDocumentModel(**response.json())
+        return model

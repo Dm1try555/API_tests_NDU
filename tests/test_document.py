@@ -41,15 +41,25 @@ class TestDocument:
         model = self.api_document.audit_document_by_id(self.__class__.document_id)
         assert model.message == "Дані отримано."
 
+    @allure.title("Get Printed Forms by ID")
+    def test_get_printed_forms_by_id(self):
+        self.api_document.get_printed_form_by_id(self.__class__.document_id)
 
 
-    @allure.title("Upload file document by ID")
-    def test_upload_file_document_by_id(self):
+    @allure.title("Change document by ID")
+    def test_change_document_by_id(self):
         assert self.__class__.document_id is not None, "The document was not created."
-        file_path = "tests/files/file_upload.docx"
-        model = self.api_document.upload_document_by_id(self.__class__.document_id, file_path)
-        assert model.message == "Файл завантажено"
-        assert len(model.data.files) > 0
+        model = self.api_document.change_document()
+        assert model.message == "Документ оновлено."
+
+
+    # @allure.title("Upload file document by ID")
+    # def test_upload_file_document_by_id(self):
+    #     assert self.__class__.document_id is not None, "The document was not created."
+    #     file_path = "tests/files/file_upload.docx"
+    #     model = self.api_document.upload_document_by_id(self.__class__.document_id, file_path)
+    #     assert model.message == "Файл завантажено"
+    #     assert len(model.data.files) > 0
 
 
 

@@ -15,9 +15,9 @@ class Endpoints:
 
     #New endpoints
     
-    #change_document_by_id = lambda self, id: f"{HOST}/document/{id}"
+    change_document_by_id = lambda self, id: f"{HOST}/document/{id}"
     #send_document_by_id = lambda self, id: f"{HOST}/document/{id}/send"
-    #get_printed_document_by_id = lambda self, id: f"{HOST}/document/{id}/printed"
+    get_printed_document_by_id = lambda self, id: f"{HOST}/document/{id}/printed"
     upload_document_by_id = lambda self, id: f"{HOST}/document/{id}/upload"
 
 
