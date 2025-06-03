@@ -209,3 +209,40 @@ class MyLLCModel(BaseModel):
             raise ValueError("Field is empty")
         else:
             return value
+
+
+'''Get LLC Search'''
+class SearchItems(BaseModel):
+    id: int
+    name: str
+    fullName: str
+    edrpou: str
+    
+    @field_validator("id", "name", "fullName", "edrpou")
+    def fields_are_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+        
+class SearchData(BaseModel):
+    totalCount: int
+    totalNotSendDocumentsCount: int
+    items: list[SearchItems]
+    
+    @field_validator("totalCount", "totalNotSendDocumentsCount", "items")
+    def fields_are_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+
+class LlcSearchModel(BaseModel):
+    message: str
+    data: SearchData
+    @field_validator("message", "data")
+    def message_is_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value

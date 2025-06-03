@@ -23,6 +23,12 @@ class TestLLC:
         self.__class__.id_llc = model.data.items[0].id
         print(f"Extracted ID LLC: {self.__class__.id_llc}")
 
+    @allure.title("Get llc search")
+    def test_llc_search(self):
+        model = self.api_llc.get_llc_search()
+        assert model.message == "Успішно отримано дані."
+        assert model.data is not None
+
 
     @allure.title("Get llc by ID")
     def test_llc_by_id(self):

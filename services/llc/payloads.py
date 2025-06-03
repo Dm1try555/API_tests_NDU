@@ -19,6 +19,14 @@ class Params:
         "sortOrderType": "Ascending",   
     }
 
+    llc_search = \
+    {
+        "maxResultCount": 100, 
+        "skipCount": 0,   
+        "sortOrder": "",   
+        "filter": "",   
+        "sortOrderType": "Ascending",   
+    }
 
 
 
