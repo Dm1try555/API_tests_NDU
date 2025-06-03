@@ -33,12 +33,17 @@ class DocumentSignAPI(Helper):
         return model
     
     
-
-    
-
-
-
-
-
-  
-
+    @allure.step("Get file to sign document")
+    def get_document_sign(self, id):
+        headers = {
+            **self.headers.basic
+        }
+        response = requests.get(
+            url=self.endpoints.get_sign_document(id),
+            headers=headers,
+        )
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = GetDocumentSignModel(**response.json())
+        return model

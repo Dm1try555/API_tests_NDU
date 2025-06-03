@@ -11,8 +11,7 @@ class TestPrintedForms:
     @classmethod
     def setup_class(cls):
         cls.api_printed_forms = PrintedFormsAPI()
-
-
+        
 
 
     @allure.title("Get Printed Forms by default filters")
@@ -23,16 +22,19 @@ class TestPrintedForms:
         assert model.data.items is not None, "Printed Forms items are None"
         assert len(model.data.items) > 0, "No printed forms found in response"
 
-  
+    @allure.title("Create new Printed Form")
+    def test_create_printed_form(self, id=1, file_path="tests/files/dodatok-23.docx"):
+        model = self.api_printed_forms.create_printed_form(file_path, id)
+        assert model.message == "Успішно завантажено"
+        assert model.data is not None, "Printed Form data is None"
 
 
-
-    @allure.title("Get Placeholder")
-    def test_get_placeholder(self):
-        model = self.api_printed_forms.get_placeholder()
-        assert model.message == "Успішно отримано"
-        assert model.data is not None, "Placeholder data is None"
-
+    @allure.title("Get Printed Form by ID")
+    def test_get_printed_form_by_id(self, id=1):
+        response = self.api_printed_forms.get_printed_form_by_id(id)
+        assert "bytes" in response.headers.get("accept-ranges"), "Accept-ranges is not bytes"
+        assert "inline" in response.headers.get("content-disposition"), "Content-disposition is not bytes"
+        assert "application/pdf" in response.headers.get("Content-Type"), "Content-Type is not bytes"
 
     @allure.title("Get Printed Forms by type")
     def test_get_printed_forms_by_type(self):
@@ -64,3 +66,15 @@ class TestPrintedForms:
         dodatok_30 = self.api_printed_forms.get_printed_forms_by_type("AccountProfileLegalNonResident")
         assert "dodatok-30" in dodatok_30.headers.get("content-disposition", ""), "Filename for AccountProfileLegalNonResident is incorrect"
 
+        dodatok_34 = self.api_printed_forms.get_printed_forms_by_type("ShareSystemChangePurchaseSale")
+        assert "dodatok-34" in dodatok_34.headers.get("content-disposition", ""), "Filename for ShareSystemChangePurchaseSale is incorrect"
+
+        dodatok_40 = self.api_printed_forms.get_printed_forms_by_type("ShareSystemChangeBlocking")
+        assert "dodatok-40" in dodatok_40.headers.get("content-disposition", ""), "Filename for ShareSystemChangeBlocking is incorrect"
+
+
+    @allure.title("Get Placeholder")
+    def test_get_placeholder(self):
+        model = self.api_printed_forms.get_placeholder()
+        assert model.message == "Успішно отримано"
+        assert model.data is not None, "Placeholder data is None"

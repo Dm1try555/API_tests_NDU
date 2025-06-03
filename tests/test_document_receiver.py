@@ -12,7 +12,6 @@ class TestDocumentReceiver:
 
         cls.api_receiver = DocumentReceiverAPI()
 
-   
 
     @allure.title("Rejection Letter")
     def test_rejection_letter(self, key="super-secret-key-123"):

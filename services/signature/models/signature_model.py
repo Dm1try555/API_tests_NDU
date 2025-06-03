@@ -24,9 +24,10 @@ class GetSignatureItemModel(BaseModel):
 
 class GetSignatureData(BaseModel):
     totalCount: int
+    totalNotSendDocumentsCount: int
     items: list[GetSignatureItemModel]
 
-    @field_validator("totalCount")
+    @field_validator("totalCount", "items", "totalNotSendDocumentsCount")
     def total_count_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -36,7 +37,7 @@ class GetSignatureData(BaseModel):
 class GetSignatureModel(BaseModel):
     message: str
     data: GetSignatureData
-    @field_validator("message")
+    @field_validator("message", "data")
     def message_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")

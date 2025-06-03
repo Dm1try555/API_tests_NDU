@@ -1,5 +1,4 @@
-from typing import Optional, Union
-from pydantic import BaseModel, field_validator, root_validator, model_validator
+from pydantic import BaseModel, field_validator
 
 '''Create Document'''
 
@@ -46,11 +45,11 @@ class CreateDocumentData(BaseModel):
 
 
     @field_validator("id", "name", "documentType", "documentDirection", "documentStatus",
-                     "llcMemberType", 
-                     "llcId", "clientName", "clientFullName",
-                     "clientCode", "isPresentOutNum",
-                     "countOfSignaturesForDocument", "countOfStampsForDocument",
-                     "p_DocumentName")
+                    "llcMemberType", 
+                    "llcId", "clientName", "clientFullName",
+                    "clientCode", "isPresentOutNum",
+                    "countOfSignaturesForDocument", "countOfStampsForDocument",
+                    "p_DocumentName")
     @classmethod
     def fields_are_valid(cls, value):
         if value == "" or value is None:
@@ -216,7 +215,7 @@ class CopyDocumentData(BaseModel):
 class CopyDocumentModel(BaseModel):
     message: str
     data: CopyDocumentData
-    @field_validator("message", "data")
+    @field_validator("message")
     def message_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -264,17 +263,35 @@ class AuditDocumentModel(BaseModel):
 
 
 '''Get Document'''
+class MemberRoles(BaseModel):
+    code: str
+    name: str
+    
+
+    @field_validator("code", "name")
+    def fields_are_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+        
 
 class GetDocumentItem(BaseModel):
     id: int
     name: str
     createDataTime: str
     memberName: str
-    llcName: str | None
+    llcName: str
     llcedrpou: str
     documentStatus: str
+    memberRoles: list[MemberRoles]
+    documentType: str
+    documentDirection: str
+    llcMemberType: str | None
+    signatures: list
 
-    @field_validator("id", "name", "createDataTime", "memberName", "llcedrpou", "documentStatus")
+    @field_validator("id", "name", "createDataTime", "memberName", "llcedrpou", "documentStatus", "llcName", 
+                    "memberRoles", "documentType", "documentDirection","signatures")
     def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -284,9 +301,10 @@ class GetDocumentItem(BaseModel):
 
 class GetDocumentData(BaseModel):
     totalCount: int
+    totalNotSendDocumentsCount: int
     items: list[GetDocumentItem]
 
-    @field_validator("totalCount", "items")
+    @field_validator("totalCount", "items", "totalNotSendDocumentsCount")
     def total_count_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -296,7 +314,7 @@ class GetDocumentData(BaseModel):
 class GetDocumentModel(BaseModel):
     message: str
     data: GetDocumentData
-    @field_validator("message")
+    @field_validator("message", "data")
     def message_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -331,24 +349,24 @@ class UploadDocumentData(BaseModel):
     documentType: str
     documentDirection: str
     documentStatus: str
-    llcMemberType: str
+    llcMemberType: str 
     roleName: str | None
     roleCode: str | None
-    outNum: str 
-    outDate: str
+    outNum: str | None
+    outDate: str | None
     isPresentOutNum: bool
-    memberAccountReference: str
+    memberAccountReference: str | None
     memberDocumentNumber: str | None
     llcId: int
-    clientName: str
-    clientFullName: str
-    clientCode: str
-    memberRoles: str
-    shareSize: int
+    clientName: str 
+    clientFullName: str 
+    clientCode: str 
+    memberRoles: str | None
+    shareSize: int | None
     isFullShareSize: bool
-    capitalShareAction: str
-    counterPartyCode: str 
-    counterPartyName: str
+    capitalShareAction: str | None
+    counterPartyCode: str | None
+    counterPartyName: str | None
     nameBlockFor: str | None
     codeBlockFor: str | None
     blockReasonNameOther: str | None
@@ -356,8 +374,7 @@ class UploadDocumentData(BaseModel):
     escrowAccountNumber: str | None
     escrowDocumentNumber: str | None
     escrowDocumentDate: str | None
-    contractNumber: str 
-    contractDate: str 
+    contractDate: str | None
     holderBalance: str | None
     accountClass: str | None
     messageCdData: str | None
@@ -373,7 +390,7 @@ class UploadDocumentData(BaseModel):
     p_Code: str | None
     p_IsCodeExist: bool
     p_CodeEDDR: str | None
-    p_Citizenship: str
+    p_Citizenship: str | None
     p_BirthPlace: str | None
     p_DocumentName: str
     p_DocumentNumber_Series: str | None
@@ -381,7 +398,7 @@ class UploadDocumentData(BaseModel):
     p_DocumentDate: str | None
     p_DocumentWho: str | None
     p_BirthDate: str | None
-    p_Country: str
+    p_Country: str | None
     p_Region: str | None
     p_City: str | None
     p_Address: str | None
@@ -401,8 +418,8 @@ class UploadDocumentData(BaseModel):
     p_BankName: str | None
     p_BankMFO: str | None
     p_BankAccount: str | None
-    mg_Name: str
-    mg_Code: str
+    mg_Name: str | None
+    mg_Code: str | None
     mg_IsJur: str | None
     mg_AuthDocument: str | None
     mg_TermAuthority: str | None
@@ -428,28 +445,28 @@ class UploadDocumentData(BaseModel):
     jurEdrpou: str | None
     jurEdrisi: str | None
     jurRegCountry: str | None
-    govName: str
+    govName: str | None
     govShortName: str | None
-    govCode: str
+    govCode: str | None
     letterDepository: str | None
 
     @field_validator(
-    "id", "name", "documentType", "documentDirection", "documentStatus",
-    "llcMemberType", "outNum", "outDate", "isPresentOutNum", "memberAccountReference",
-    "llcId", "shareSize", "capitalShareAction", "counterPartyCode", "counterPartyName",
-    "contractNum", "contractDate", "files", "countOfSignaturesForDocument",
-    "countOfStampsForDocument", "p_Citizenship", "p_DocumentName", "p_Country",
+    "id", "name", "documentType", "documentDirection", "documentStatus", "isPresentOutNum",
+    "llcId", "isFullShareSize", "llcMemberType", "clientName", "clientFullName", "clientCode",
+    "files", "countOfSignaturesForDocument",
+    "countOfStampsForDocument", "p_IsCodeExist", "p_DocumentName",
     "p_Is_Mailing_Address_Matches_Location", "p_TaxResidencyStatusResName", "p_IsFOP",
-    "mg_Name", "mg_Code", "p_TaxResidencyStatusResOwnersName", "govName", "govCode")
+    "p_TaxResidencyStatusResOwnersName")
     def validate_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
         return value
 
-class UpdateDocumentModel(BaseModel):
+class UploadDocumentModel(BaseModel):
     message: str
     data: UploadDocumentData
-    @field_validator("message", "data")
+
+    @field_validator("message")
     def message_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -623,12 +640,11 @@ class ChangeData(BaseModel):
         return value
 
 class ChangeDocumentModel(BaseModel):
-    message: int
+    message: str
     innerMessage: str | None
     data: ChangeData
 
-    @field_validator(
-    "message", "data")
+    @field_validator("message", "data")
     def validate_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")

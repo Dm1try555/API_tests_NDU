@@ -4,7 +4,7 @@ from config.headers import Headers
 from utils.helper import Helper
 from services.printed_forms.endpoints import Endpoints
 from services.printed_forms.payloads import Payloads
-from services.printed_forms.models.printed_forms_model import PrintedFormsModel, PlaceholderModel
+from services.printed_forms.models.printed_forms_model import PrintedFormsModel, PlaceholderModel, CreateFormsModel
 import os
 
 class PrintedFormsAPI(Helper):
@@ -19,9 +19,9 @@ class PrintedFormsAPI(Helper):
 
     @allure.step("Get Printed Forms by default filters")
     def get_printed_forms(self, max_result_count=None, 
-                          skip_count=None, 
-                          sort_order=None,
-                          sort_order_type=None):
+                        skip_count=None, 
+                        sort_order=None,
+                        sort_order_type=None):
         
         params = {
             "maxResultCount": max_result_count,
@@ -66,7 +66,7 @@ class PrintedFormsAPI(Helper):
                 f.write(response.content)
             self._attach_file(response.content, default_filename)
             os.remove(default_filename)
-
+            
         return response 
 
 
@@ -82,8 +82,6 @@ class PrintedFormsAPI(Helper):
         allure.attach(content, name=name)
 
 
-
-
     @allure.step("Get Placeholder")
     def get_placeholder(self):
         response = requests.get(
@@ -96,9 +94,33 @@ class PrintedFormsAPI(Helper):
         self.attach_response(response.json())
         model = PlaceholderModel(**response.json())
         return model
-
-
-
-
     
 
+    @allure.step("Create new Printed Form")
+    def create_printed_form(self, file_path, id):
+        with open(file_path, "rb") as file:
+            files = {"file": (file_path, file, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")}
+            response = requests.post(
+                url=self.endpoints.create_printed_forms(id),
+                headers=self.headers.basic,
+                files=files
+            )
+
+        print(response.url)
+        print(response.json())
+        assert response.status_code == 200, response.json()
+        self.attach_response(response.json())
+        model = CreateFormsModel(**response.json())
+        return model
+
+
+
+    @allure.step("Get Printed Form by ID")
+    def get_printed_form_by_id(self, id):
+        response = requests.get(
+            url=self.endpoints.get_view_by_id(id),
+            headers=self.headers.basic,
+        )
+        print(response.url)
+        assert response.status_code == 200
+        return response

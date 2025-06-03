@@ -1,4 +1,4 @@
-from typing import Optional, Union, List, Dict
+from typing import Optional, Union
 from pydantic import BaseModel, field_validator
 
 
@@ -17,7 +17,7 @@ class GetAdminUserRoles(BaseModel):
 class GetAdminUserItem(BaseModel):
     id: int
     firstName: str
-    middleName: Union[str, None]
+    middleName: str | None
     lastName: str
     identityNumber: str
     login: str
@@ -34,9 +34,10 @@ class GetAdminUserItem(BaseModel):
 
 class GetAdminUserData(BaseModel):
     totalCount: int
+    totalNotSendDocumentsCount: int
     items: list[GetAdminUserItem]
 
-    @field_validator("totalCount", "items")
+    @field_validator("totalCount", "items", "totalNotSendDocumentsCount")
     def fields_are_not_empty(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -45,6 +46,7 @@ class GetAdminUserData(BaseModel):
 
 class GetAdminUserModel(BaseModel):
     message: str
+    innerMessage: str | None
     data: GetAdminUserData
 
     @field_validator("message", "data")

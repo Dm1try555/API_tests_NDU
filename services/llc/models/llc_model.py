@@ -1,33 +1,72 @@
-from typing import Union
 from pydantic import BaseModel, field_validator
 
 
 
-#Create LLC
-class LlcCreateModel(BaseModel):
-    Message: str
-    Data: str | None
-    @field_validator("Message")
-    def message_is_valid(cls, value):
+'''Get all LLCs by filter'''
+class Roles(BaseModel):
+    code: str 
+    name: str
+
+    @field_validator("code", "name") 
+    def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
         else:
             return value
+        
+class Contracts(BaseModel):
+    contacT_TYPE: str 
+    cnT_NAME_SURNAME: str
+    cnT_NAME_ID_CODE: str
+    contacT_START: str
+    contacT_END: str | None
+    contacT_FIELD_TEXT03: str | None
+    cnT_NAME_PASSPORT_NUMBER: str | None
+    contacT_FIELD_DATE01: str | None
+    telE_NUMBER_MOBILE: str | None
+    emaiL_ADDRESS: str | None
 
+    @field_validator("contacT_TYPE", "cnT_NAME_SURNAME", "cnT_NAME_ID_CODE", "contacT_START") 
+    def fields_are_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+    
 
+class Members(BaseModel):
+    roles: list[Roles] 
+    contracts: list[Contracts]
+    holderBalance: float
+    llcMemberType: str
+    llcMemberTypeName: str
+    accountClass: str
+    accountReference: str
+    accountCategory: str
+    accountOwnerList: str
+    nameSurname: str
+    nameForenames: str | None
+    namePatronym: str | None
+    nameIdCode: str
+    countOfSignaturesForDocument: int
+    countOfStampsForDocument: int
 
-
-
-#'''Get all LLCs by filter'''
-
+    @field_validator("roles", "contracts", "holderBalance", "llcMemberType", "llcMemberTypeName", "accountClass", 
+                    "accountReference", "accountCategory", "accountOwnerList", "nameSurname",
+                    "nameIdCode", "countOfSignaturesForDocument", "countOfStampsForDocument") 
+    def fields_are_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
 class LlcItem(BaseModel):
     id: int
-    name: str | None
-    fullName: str | None
+    name: str 
+    fullName: str
     edrpou: str
-    members: list | None
+    members: list[Members]
 
-    @field_validator("id",  "edrpou") 
+    @field_validator("id", "name", "fullName", "edrpou", "members") 
     def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -36,9 +75,10 @@ class LlcItem(BaseModel):
 
 class LlcData(BaseModel):
     totalCount: int
+    totalNotSendDocumentsCount: int
     items: list[LlcItem]
 
-    @field_validator("totalCount", "items")
+    @field_validator("totalCount", "items", "totalNotSendDocumentsCount")
     def total_count_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -56,33 +96,18 @@ class LlcModel(BaseModel):
             return value
 
 
-#'''Get LLC by ID'''
+'''Get LLC by ID'''
 
-class LlcIdManagers(BaseModel):
-    userId: int
-    firstName: str
-    middleName: str
-    lastName: str
-    identityNumber: str
-
-
-    @field_validator("userId",  "firstName", "middleName", "lastName", "identityNumber")
-    def fields_are_valid(cls, value):
-        if value == "" or value is None:
-            raise ValueError("Field is empty")
-        else:
-            return value
-
-class LlcIdData(BaseModel):
+class Data(BaseModel):
     id: int
-    name: str | None
-    fullName: str | None
+    name: str
+    fullName: str
     edrpou: str
-    managers: list[LlcIdManagers]
-    members: list | None
+    members: list
 
-    @field_validator("id",  "managers", "edrpou") 
-    def total_count_is_valid(cls, value):
+
+    @field_validator("id", "name", "fullName", "edrpou", "members")
+    def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
         else:
@@ -90,7 +115,7 @@ class LlcIdData(BaseModel):
 
 class LlcIdModel(BaseModel):
     message: str
-    data: LlcIdData
+    data: Data
     @field_validator("message", "data")
     def message_is_valid(cls, value):
         if value == "" or value is None:
@@ -99,37 +124,46 @@ class LlcIdModel(BaseModel):
             return value
 
 
-#'''Add manager to LLC'''
 
-class AddManagerModel(BaseModel):
-    message: str
-    data: str | None
-    @field_validator("message")
-    def message_is_valid(cls, value):
-        if value == "" or value is None:
-            raise ValueError("Field is empty")
-        else:
-            return value
+        
 
+'''Get my LLC'''
 
+class Roles(BaseModel):
+    code: str 
+    name: str
 
-#'''Add members to LLC'''
-
-class AddMemberModel(BaseModel):
-    message: str
-    data: str | None
-    @field_validator("message")
-    def message_is_valid(cls, value):
+    @field_validator("code", "name") 
+    def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
         else:
             return value
         
+class Contracts(BaseModel):
+    contacT_TYPE: str 
+    cnT_NAME_SURNAME: str
+    cnT_NAME_ID_CODE: str
+    contacT_START: str
+    contacT_END: str
+    contacT_FIELD_TEXT03: str
+    cnT_NAME_PASSPORT_NUMBER: str
+    contacT_FIELD_DATE01: str
+    telE_NUMBER_MOBILE: str
+    emaiL_ADDRESS: str | None
 
-#Get my llc
+    @field_validator("contacT_TYPE", "cnT_NAME_SURNAME", "cnT_NAME_ID_CODE", "contacT_START", "contacT_END", "contacT_FIELD_TEXT03", 
+                    "cnT_NAME_PASSPORT_NUMBER", "contacT_FIELD_DATE01", "telE_NUMBER_MOBILE") 
+    def fields_are_valid(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        else:
+            return value
+    
+
 class Members(BaseModel):
-    roleName: str | None
-    roleCode: str | None
+    roles: list[Roles] 
+    contracts: list[Contracts]
     holderBalance: float
     llcMemberType: str
     llcMemberTypeName: str
@@ -141,41 +175,37 @@ class Members(BaseModel):
     nameForenames: str | None
     namePatronym: str | None
     nameIdCode: str
-    countOfSignaturesForDocument: int | None
-    countOfStampsForDocument: int  | None
+    countOfSignaturesForDocument: int
+    countOfStampsForDocument: int
 
-
-    @field_validator("holderBalance", "llcMemberType", "llcMemberTypeName", "accountClass", "accountReference",
-                       "accountCategory", "accountOwnerList", "nameSurname",
-                       "nameIdCode")
+    @field_validator("roles", "contracts", "holderBalance", "llcMemberType", "llcMemberTypeName", "accountClass", 
+                    "accountReference", "accountCategory", "accountOwnerList", "nameSurname",
+                    "nameIdCode", "countOfSignaturesForDocument", "countOfStampsForDocument") 
     def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
         else:
             return value
-        
-class MyLlcData(BaseModel):
+class Data(BaseModel):
     id: int
-    name: str
+    name: str 
     fullName: str
     edrpou: str
     members: list[Members]
 
-    @field_validator("id", "name", "fullName", "edrpou", "members")
-    def total_count_is_valid(cls, value):
+    @field_validator("id", "name", "fullName", "edrpou", "members") 
+    def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
         else:
             return value
-        
-class MyLlcModel(BaseModel):
+
+class MyLLCModel(BaseModel):
     message: str
-    data: list[MyLlcData]
+    data: list[Data]
     @field_validator("message", "data")
     def message_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
         else:
             return value
-
-

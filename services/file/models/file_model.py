@@ -1,8 +1,5 @@
 from pydantic import BaseModel, field_validator
 
-
-
-#Create File
 class CreateFileData(BaseModel):
     id: str
     fileName: str
@@ -12,7 +9,9 @@ class CreateFileData(BaseModel):
     extension: str
     isTemplate: bool
     printedFileType: str
-    @field_validator("id", "fileName", "contentType", "fileSize", "url", "extension", "isTemplate", "printedFileType")
+    creationDate: str
+    hash: str
+    @field_validator("id", "fileName", "contentType", "fileSize", "url", "extension", "isTemplate", "printedFileType", "creationDate", "hash")
     def message_is_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
@@ -29,6 +28,7 @@ class CreateFileModel(BaseModel):
             raise ValueError("Field is empty")
         else:
             return value
+
 
 class CheckFileAfterDeleteModel(BaseModel):
     type: str

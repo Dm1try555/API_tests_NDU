@@ -26,6 +26,7 @@ class TestCounterAgent:
         model = self.api_counteragent.get_counter_agent_by_id(identity_number=identity_number)
         print(model)
         assert get_identity_number == model.data[0].identityNumber
+        assert model.message == "Успішно отримано."
 
 
 

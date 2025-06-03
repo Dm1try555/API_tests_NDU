@@ -2,8 +2,6 @@ import allure
 from services.kep.api_kep import KepAPI
 
 
-
-
 @allure.epic("KEP")
 @allure.feature("KEP")
 class TestKep:
@@ -14,8 +12,8 @@ class TestKep:
 
 
 
-    @allure.title("Get KEP integration")
-    def test_get_kep_integration(self):
-        model = self.api_kep.get_kep_integration()
+    @allure.title("Create KEP integration")
+    def test_create_kep_integration(self):
+        model = self.api_kep.create_kep_integration()
 
 

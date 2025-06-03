@@ -36,6 +36,7 @@ class FileAPI(Helper):
             headers=self.headers.basic,
         )
         print(response.url)
+        return response
 
     @allure.step("Delete file by ID")
     def delete_file_by_id(self, id):

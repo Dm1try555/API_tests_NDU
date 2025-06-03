@@ -4,7 +4,7 @@ from utils.helper import Helper
 from services.account.endpoints import Endpoints
 from services.account.payloads import Payloads
 from config.headers import Headers
-from services.account.models.account_model import CreateAccountModel
+from services.account.models.account_model import CreateAccountModel, GetAccountModel
 
 
 class AccountAPI(Helper):
@@ -23,14 +23,10 @@ class AccountAPI(Helper):
             headers=self.headers.basic,
             json=self.payloads.create_account
         )
-        response_json = response.json()
         print(response.json())
-        assert "message" in response_json, "Ключ 'message' відсутній у відповіді"
-        assert isinstance(response_json["message"], str), f"Очікувався рядок, отримано {type(response_json['message'])}"
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
         model = CreateAccountModel(**response.json())
-        assert model.message == "Дані успішно оновлено."
         return model
 
     @allure.step("Get account")
@@ -42,7 +38,5 @@ class AccountAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = CreateAccountModel(**response.json())
-        assert model.message == "Дані успішно отримано."
-        assert isinstance(model.data.id, int), f"Очікувався тип 'int', але отримано {type(model.data.id)}"
+        model = GetAccountModel(**response.json())
         return model

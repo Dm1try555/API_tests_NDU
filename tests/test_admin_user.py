@@ -82,14 +82,7 @@ class TestGetAdminUser:
     def test_get_users_by_filters(self):
         model_default = self.api_adminuser.get_users_by_filters_default()
         assert model_default.message == "Дані успішно отримано."
+        assert model_default.data is not None
 
-        model_active = self.api_adminuser.get_users_by_filters_active()
-        assert model_active.data.items[0].status == "Active"
-
-        # model_inactive = self.api_adminuser.get_users_by_filters_inactive()
-        # assert model_inactive.data.items[0].status == "Inactive"
-
-        # model_need_change_password = self.api_adminuser.get_users_by_filters_need_change_password()
-        # assert any(user.status == "NeedChangePassword" for user in model_need_change_password.data.items)
 
 

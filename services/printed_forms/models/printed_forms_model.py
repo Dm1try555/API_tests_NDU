@@ -41,12 +41,32 @@ class PrintedFormsModel(BaseModel):
 
 
 
+'''Create printed forms'''
+class CreateData(BaseModel):
+    id: int
+    createDataTime: str
+    updateDataTime: str
+    baseFileUrl: str
+    fileUrl: str
+    documentType: str
+    name: str
 
+    @field_validator("id", "createDataTime", "updateDataTime", "baseFileUrl", "fileUrl", "documentType", "name")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        return value
+    
+class CreateFormsModel(BaseModel):
+    message: str
+    innerMessage: str | None
+    data: CreateData
 
-
-
-
-
+    @field_validator("message", "data")
+    def fields_are_not_empty(cls, value):
+        if value == "" or value is None:
+            raise ValueError("Field is empty")
+        return value
 
 
 

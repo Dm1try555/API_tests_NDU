@@ -20,9 +20,9 @@ class Params:
 class Payloads:
     create_signature = \
         {
-            "llcId": "16",
-            "countOfSignaturesForDocument": random.randint(1, 4),
-            "countOfStampsForDocument": random.randint(1, 2)
+            "llcId": "6",
+            "countOfSignaturesForDocument": 1 ,
+            "countOfStampsForDocument": 0
         }
 
 
@@ -30,4 +30,10 @@ class Payloads:
     {
         "countOfSignaturesForDocument": random.randint(1, 4),
         "countOfStampsForDocument": random.randint(1, 2)
+    }
+
+    change_signature_default = \
+    {
+        "countOfSignaturesForDocument": 1,
+        "countOfStampsForDocument": 0
     }

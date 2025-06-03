@@ -2,25 +2,23 @@ from faker import Faker
 
 fake = Faker()
 
-class Payloads:
-
-   llc= \
-    {
-        "edrpou": "TestEdrpou", 
-        "name": "TestName",
-    }
-
-
 class Params:
-   llc_params = \
+    llc_params = \
     {
-        "maxResultCount": 100, #int
-        "skipCount": 0,   #int
-        "sortOrder": "",   #str
-        "filter": "",   #str
-        "sortOrderType": "Ascending",   #str: Ascending or Descending
+        "maxResultCount": 100, 
+        "skipCount": 0,   
+        "sortOrder": "",   
+        "filter": "",   
+        "sortOrderType": "Ascending",   
     }
-   
+
+    myllc_params = \
+    {
+        "sortOrder": "name", 
+        "filter": "", 
+        "sortOrderType": "Ascending",   
+    }
+
 
 
 

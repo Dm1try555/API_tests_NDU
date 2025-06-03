@@ -3,36 +3,19 @@ import requests
 from config.headers import Headers
 from utils.helper import Helper
 from services.llc.endpoints import Endpoints
-from services.llc.payloads import Payloads, Params
-from services.llc.models.llc_model import LlcCreateModel, LlcModel, LlcIdModel ,AddManagerModel, AddMemberModel, MyLlcModel
+from services.llc.payloads import Params
+from services.llc.models.llc_model import LlcModel, MyLLCModel, LlcIdModel
 
 
 class LlcAPI(Helper):
 
     def __init__(self) -> None:
         super().__init__()
-        self.payloads = Payloads()
         self.endpoints = Endpoints()
         self.headers = Headers()
         self.params = Params()
 
-
-
-    @allure.step("Create LLC")
-    def create_llc(self):
-        response = requests.post(
-            url=self.endpoints.create_llc,
-            headers=self.headers.basic,
-            json=self.payloads.llc
-        )
-        print(response.json())
-        assert response.status_code == 400, response.json()
-        self.attach_response(response.json())
-        model = LlcCreateModel(**response.json())
-        return model
     
-
-
     @allure.step("Get llc by filter")
     def get_llc_by_filter(self):
         response = requests.get(
@@ -59,42 +42,15 @@ class LlcAPI(Helper):
         model = LlcIdModel(**response.json())
         return model
 
-    @allure.step("Add manager to LLC")
-    def add_manager_to_llc(self, llc_id, user_id):
-        response = requests.post(
-            url=self.endpoints.add_manager_to_LLC(llc_id, user_id),
-            headers=self.headers.basic
-        )
-        print(response.json())
-        print(response.url)
-        assert response.status_code == 200, response.json()
-        self.attach_response(response.json())
-        model = AddManagerModel(**response.json())
-        return model
-
-    # @allure.step("Add members to LLC")
-    # def add_members_to_llc(self, llc_id, user_id):
-    #     response = requests.post(
-    #         url=self.endpoints.add_members_to_LLC(llc_id, user_id),
-    #         headers=self.headers.basic
-    #     )
-    #     print(response.json())
-    #     print(response.url)
-    #     assert response.status_code == 200, response.json()
-    #     self.attach_response(response.json())
-    #     model = AddMemberModel(**response.json())
-    #     return model
-
-
-
     @allure.step("Get my llc")
     def get_my_llc(self):
         response = requests.get(
             url=self.endpoints.get_myllc,
             headers=self.headers.basic,
+            params= self.params.myllc_params
         )
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = MyLlcModel(**response.json())
+        model = MyLLCModel(**response.json())
         return model

@@ -5,7 +5,7 @@ from utils.helper import Helper
 from services.document.endpoints import Endpoints
 from services.document.payloads import Payloads
 from services.document.models.document_model import CreateDocumentModel, DeleteDocumentModel, CheckDeleteDocumentModel, \
-    CopyDocumentModel, AuditDocumentModel, GetDocumentModel, UpdateDocumentModel, ChangeDocumentModel
+    CopyDocumentModel, AuditDocumentModel, GetDocumentModel, UploadDocumentModel, ChangeDocumentModel
 
 
 class DocumentAPI(Helper):
@@ -81,7 +81,7 @@ class DocumentAPI(Helper):
         print(response.json())
         assert response.status_code == 200, response.json()
         self.attach_response(response.json())
-        model = UpdateDocumentModel(**response.json())
+        model = UploadDocumentModel(**response.json())
         return model
     
 
@@ -170,9 +170,9 @@ class DocumentAPI(Helper):
     
 
     @allure.step("Change document by ID")
-    def change_document(self):
+    def change_document(self, id):
         response = requests.put(
-            url=self.endpoints.change_document_by_id,
+            url=self.endpoints.change_document_by_id(id),
             headers=self.headers.basic,
             json=self.payloads.change_document_by_id
         )

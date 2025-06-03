@@ -31,7 +31,7 @@ class TestIdentity:
             login=self.__class__.login, 
             refresh_token=self.refresh_token)
         print(f"Refresh token after test: {model.data.refreshToken}")
-        assert model.message == "Authenticated mike"
+        assert model.message == "Authenticated 141245"
 
     @allure.title("Auth user code(token)")
     def test_auth_user_code(self):

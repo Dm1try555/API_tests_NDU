@@ -1,17 +1,16 @@
-from faker import Faker
+# from faker import Faker
 
-fake = Faker()
+# fake = Faker()
 
-class Payloads:
+# class Payloads:
 
-    create_kep_verify= \
-        {
-            "data": "string",
-            "signature": "string"
-        }
-    print(create_kep_verify)
-
-    create_kep_generate_hash = "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    print(create_kep_generate_hash)
+#     create_kep_integration= \
+#         {
+#         "encodeCert": "string",
+#         "encodeCertSerial": "string",
+#         "token": "string",
+#         "signature": "string"
+#         }
+    
 
 
