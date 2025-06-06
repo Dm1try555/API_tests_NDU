@@ -23,7 +23,7 @@ class SignatureAPI(Helper):
     def get_signature_by_filter(self):
         response = requests.get(
             url=self.endpoints.get_signature,
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             params= self.params.signature_params
         )
         assert response.status_code == 200, response.json()
@@ -38,7 +38,7 @@ class SignatureAPI(Helper):
 
         response = requests.get(
             url=self.endpoints.get_signature_by_id(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
         )
         print(response.json())
         assert response.status_code == 200, response.json()
@@ -50,7 +50,7 @@ class SignatureAPI(Helper):
     def change_signature_by_id(self, signature_id):
         response = requests.put(
             url=self.endpoints.change_signature_by_id(signature_id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             json=self.payloads.change_signature
         )
         print(response.json())
@@ -64,7 +64,7 @@ class SignatureAPI(Helper):
     def change_signature_by_id_default(self, signature_id):
         response = requests.put(
             url=self.endpoints.change_signature_by_id(signature_id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             json=self.payloads.change_signature_default
         )
         print(response.json())

@@ -22,7 +22,7 @@ class AdminUserAPI(Helper):
     def create_user_from_admin(self):
         response = requests.post(
             url=self.endpoints.create_admin_user,
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             json=self.payloads.create_user_from_admin
         )
         print(response.json())
@@ -35,7 +35,7 @@ class AdminUserAPI(Helper):
     def get_user_by_id(self, id):
         response = requests.get(
             url=self.endpoints.get_admin_user_by_id(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
         )
         print(response.json())
         assert response.status_code == 200, response.json()
@@ -48,7 +48,7 @@ class AdminUserAPI(Helper):
     def create_status_active(self, id):
         response = requests.post(
             url=self.endpoints.create_status(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             params={"block": "Active"}
         )
         response_json = response.json()
@@ -65,7 +65,7 @@ class AdminUserAPI(Helper):
     def get_status_active(self, id):
         response = requests.get(
             url=self.endpoints.get_admin_user_by_id(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
         )
         print(response.json())
         assert response.status_code == 200, response.json()
@@ -78,7 +78,7 @@ class AdminUserAPI(Helper):
     def create_status_inactive(self, id):
         response = requests.post(
             url=self.endpoints.create_status(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             params={"block": "Inactive"}
         )
         response_json = response.json()
@@ -94,7 +94,7 @@ class AdminUserAPI(Helper):
     def get_status_inactive(self, id):
         response = requests.get(
             url=self.endpoints.get_admin_user_by_id(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
         )
         print(response.json())
         assert response.status_code == 200, response.json()
@@ -107,7 +107,7 @@ class AdminUserAPI(Helper):
     def create_status_need_change_password(self, id):
         response = requests.post(
             url=self.endpoints.create_status(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             params={"block": "NeedChangePassword"}
         )
         response_json = response.json()
@@ -123,7 +123,7 @@ class AdminUserAPI(Helper):
     def get_status_need_change_password(self, id):
         response = requests.get(
             url=self.endpoints.get_admin_user_by_id(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
         )
         print(response.json())
         assert response.status_code == 200, response.json()
@@ -138,7 +138,7 @@ class AdminUserAPI(Helper):
     def get_audit_by_id(self, id):
         response = requests.get(
             url=self.endpoints.get_audit(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
         )
         print(response.json())
         assert response.status_code == 200, response.json()
@@ -154,7 +154,7 @@ class AdminUserAPI(Helper):
     def change_password_from_admin(self, id):
         response = requests.put(
             url=self.endpoints.change_password(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             json=self.payloads.change_password
         )
         print(response.json())
@@ -181,7 +181,7 @@ class AdminUserAPI(Helper):
         }
         response = requests.get(
             url=self.endpoints.get_admin_user,
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             params=params
         )
 
@@ -195,7 +195,7 @@ class AdminUserAPI(Helper):
     def update_user_info(self, id):
         response = requests.put(
             url=self.endpoints.change_info_user(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             json=self.payloads.change_info_user_from_admin
         )
         print(response.json())
@@ -211,7 +211,7 @@ class AdminUserAPI(Helper):
         }
         response = requests.put(
             url=self.endpoints.change_role_user(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             params=params
         )
         assert response.status_code == 200
@@ -221,7 +221,7 @@ class AdminUserAPI(Helper):
     def get_role_user(self, id):
         response = requests.get(
             url=self.endpoints.get_admin_user_by_id(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
         )
         print(response.json())
         assert response.status_code == 200, response.json()
@@ -237,7 +237,7 @@ class AdminUserAPI(Helper):
     def update_password(self, id):
         response = requests.put(
             url=self.endpoints.change_password(id),
-            headers=self.headers.basic,
+            headers=self.headers.basic_admin,
             json=self.payloads.change_password
         )
         print(response.json())

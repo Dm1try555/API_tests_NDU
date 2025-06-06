@@ -145,15 +145,15 @@ class Contracts(BaseModel):
     cnT_NAME_SURNAME: str
     cnT_NAME_ID_CODE: str
     contacT_START: str
-    contacT_END: str
-    contacT_FIELD_TEXT03: str
-    cnT_NAME_PASSPORT_NUMBER: str
-    contacT_FIELD_DATE01: str
-    telE_NUMBER_MOBILE: str
+    contacT_END: str | None
+    contacT_FIELD_TEXT03: str | None
+    cnT_NAME_PASSPORT_NUMBER: str | None
+    contacT_FIELD_DATE01: str | None
+    telE_NUMBER_MOBILE: str | None
     emaiL_ADDRESS: str | None
 
-    @field_validator("contacT_TYPE", "cnT_NAME_SURNAME", "cnT_NAME_ID_CODE", "contacT_START", "contacT_END", "contacT_FIELD_TEXT03", 
-                    "cnT_NAME_PASSPORT_NUMBER", "contacT_FIELD_DATE01", "telE_NUMBER_MOBILE") 
+    @field_validator("contacT_TYPE", "cnT_NAME_SURNAME", "cnT_NAME_ID_CODE", "contacT_START",
+                    ) 
     def fields_are_valid(cls, value):
         if value == "" or value is None:
             raise ValueError("Field is empty")
