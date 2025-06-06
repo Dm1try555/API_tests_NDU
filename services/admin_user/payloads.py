@@ -6,13 +6,13 @@ class Payloads:
 
     create_user_from_admin= \
     {
-          "password": fake.password(special_chars=True, digits=True, upper_case=True, lower_case=True), #length=14,
-          "login": fake.user_name(),
-          "firstName": fake.first_name(),
-          "lastName": fake.last_name(),
-          "rolesId": [
-            1
-          ]
+        "password": fake.password(special_chars=True, digits=True, upper_case=True, lower_case=True), #length=14,
+        "login": fake.user_name(),
+        "firstName": fake.first_name(),
+        "lastName": fake.last_name(),
+        "rolesId": [
+        1
+        ]
     }
 
 
