@@ -1,8 +1,19 @@
 venv
+.venv/
+
 .idea
 .env
+.env/
 __pycache__
 .DS_Store
-README.md
 
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.vscode
+.pytest_cache
 
+# Allure
+allure-results/
+allure-report/

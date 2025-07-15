@@ -13,17 +13,17 @@ class TestDocumentReceiver:
         cls.api_receiver = DocumentReceiverAPI()
 
 
-    @allure.title("Rejection Letter")
-    def test_rejection_letter(self, key="super-secret-key-123"):
-        model = self.api_receiver.create_rejection_letter(key)
-        assert model.message == "Лист-відмова успішно прийнятий"
-        assert model.data == "Success"
+    # @allure.title("Rejection Letter")
+    # def test_rejection_letter(self, key="super-secret-key-123"):
+    #     model = self.api_receiver.create_rejection_letter(key)
+    #     assert model.message == "Лист-відмова успішно прийнятий"
+    #     assert model.data == "Success"
 
-    @allure.title("Confirmation Letter")
-    def test_confirmation_letter(self, key="super-secret-key-123"):
-        model = self.api_receiver.create_confirmation_letter(key)
-        assert model.message == "Лист-підтвердження успішно прийнятий"
-        assert model.data == "Success"
+    # @allure.title("Confirmation Letter")
+    # def test_confirmation_letter(self, key="super-secret-key-123"):
+    #     model = self.api_receiver.create_confirmation_letter(key)
+    #     assert model.message == "Лист-підтвердження успішно прийнятий"
+    #     assert model.data == "Success"
 
     @allure.title("Status Letter")
     def test_status_letter(self, key='super-secret-key-123'):

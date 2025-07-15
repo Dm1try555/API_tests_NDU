@@ -1,27 +1,11 @@
 version: "3.7"
 
 services:
-  api-tests:
-    image: api-tests:v1
-    build:
-      context: .
-      dockerfile: Dockerfile
+  tests-with-report:
+    build: .
+    ports:
+      - "8080:8080"
     volumes:
-      - ./:/usr/workspace
-    command: /bin/sh -c "STAGE=$$STAGE pytest -sv --alluredir=allure-results"
-    working_dir: /usr/workspace
-    environment:
-      STAGE: prod
-      PYTHONPATH: /usr/workspace
-      API_TOKEN: ${API_TOKEN}
-
-  report:
-    image: api-tests:v1
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./:/usr/workspace
-    command: /bin/sh -c "allure generate allure-results --clean -o allure-report"
-    working_dir: /usr/workspace
-
+      - .:/usr/workspace
+    env_file:
+      - .env

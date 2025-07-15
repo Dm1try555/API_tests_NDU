@@ -5,7 +5,7 @@ from utils.helper import Helper
 from services.role.endpoints import Endpoints
 from services.role.payloads import Payloads
 from services.role.models.role_model import (CreateRoleModel, GetRoleModel, ChangeRoleModel,
-                                             GetRolePermissionsModel, GetRoleFiltersModel)
+                                            GetRolePermissionsModel, GetRoleFiltersModel)
 
 
 
@@ -21,6 +21,7 @@ class RoleAPI(Helper):
     @allure.step("Create new Role")
     def create_role(self):
         response = requests.post(
+            timeout=10,
             url=self.endpoints.create_role,
             headers=self.headers.basic,
             json=self.payloads.create_new_role
@@ -37,6 +38,7 @@ class RoleAPI(Helper):
     @allure.step("Get Role by ID")
     def get_role_by_id(self, id):
         response = requests.get(
+            timeout=10,
             url=self.endpoints.get_role_by_id(id),
             headers=self.headers.basic,
         )
@@ -50,6 +52,7 @@ class RoleAPI(Helper):
     @allure.step("Change Role by ID")
     def change_role_by_id(self, id):
         response = requests.put(
+            timeout=10,
             url=self.endpoints.change_role_by_id(id),
             headers=self.headers.basic,
             json=self.payloads.change_role
@@ -63,6 +66,7 @@ class RoleAPI(Helper):
     @allure.step("Get all Role permissions")
     def get_role_permissions(self):
         response = requests.get(
+            timeout=10,
             url=self.endpoints.get_permission,
             headers=self.headers.basic,
         )
@@ -75,6 +79,7 @@ class RoleAPI(Helper):
     @allure.step("Get admin Role permissions")
     def get_admin_role_permissions(self):
         response = requests.get(
+            timeout=10,
             url=self.endpoints.get_permission_admin,
             headers=self.headers.basic,
         )
@@ -87,6 +92,7 @@ class RoleAPI(Helper):
     @allure.step("Get client Role permissions")
     def get_client_role_permissions(self):
         response = requests.get(
+            timeout=10,
             url=self.endpoints.get_permission_client,
             headers=self.headers.basic,
         )
@@ -106,9 +112,11 @@ class RoleAPI(Helper):
             "sortOrder": sort_order,
             "sortOrderType": sort_order_type,
             "isAdminPart": str(is_admin_part).lower(),
-            "filter_string": filter_string
         }
+        headers = self.headers.basic.copy()
+        headers["Connection"] = "close"
         response = requests.get(
+            timeout=10,
             url=self.endpoints.get_role,
             headers=self.headers.basic,
             params=params

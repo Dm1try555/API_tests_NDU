@@ -6,14 +6,14 @@ class Payloads:
 
    auth= \
     {
-        "login": "141245",
+        "login": "8888888888", #Tenko Paolo KEP
         "password": "kcme12!.xYez"
     }
    print(auth)
 
    auth_code = \
        {
-           "login": "141245",
+           "login": "8888888888", #Tenko Paolo KEP
            "password": "kcme12!.xYez"
        }
    print(auth_code)

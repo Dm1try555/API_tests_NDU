@@ -9,7 +9,7 @@ class TestIdentity:
     @classmethod
     def setup_class(cls):
         cls.api_identity = IdentityAPI()
-        cls.login = "141245"
+        cls.login = "8888888888" #Tenko Paolo KEP
 
     def setup_method(self):
         # Авторизація та отримання refresh_token перед кожним тестом
@@ -31,7 +31,7 @@ class TestIdentity:
             login=self.__class__.login, 
             refresh_token=self.refresh_token)
         print(f"Refresh token after test: {model.data.refreshToken}")
-        assert model.message == "Authenticated 141245"
+        assert model.message == "Authenticated 8888888888"
 
     @allure.title("Auth user code(token)")
     def test_auth_user_code(self):

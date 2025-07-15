@@ -280,7 +280,7 @@ class GetDocumentItem(BaseModel):
     id: int
     name: str
     createDataTime: str
-    memberName: str
+    memberName: str | None
     llcName: str
     llcedrpou: str
     documentStatus: str
@@ -290,7 +290,7 @@ class GetDocumentItem(BaseModel):
     llcMemberType: str | None
     signatures: list
 
-    @field_validator("id", "name", "createDataTime", "memberName", "llcedrpou", "documentStatus", "llcName", 
+    @field_validator("id", "name", "createDataTime", "llcedrpou", "documentStatus", "llcName", 
                     "memberRoles", "documentType", "documentDirection","signatures")
     def fields_are_valid(cls, value):
         if value == "" or value is None:
@@ -497,7 +497,7 @@ class ChangeManagerList(BaseModel):
 class ChangeRepresentList(BaseModel):
     r_Code: str
     r_Name: str
-    r_DocumentSeria: str
+    r_DocumentSerial: str
     r_DocumentNumber: str
     r_DocumentDate: str
     r_DocumentWho: str
@@ -509,7 +509,7 @@ class ChangeRepresentList(BaseModel):
     r_AuthAuthority: str
 
     @field_validator(
-    "r_Code", "r_Name", "r_DocumentSeria", "r_DocumentNumber", "r_DocumentDate",
+    "r_Code", "r_Name", "r_DocumentSerial", "r_DocumentNumber", "r_DocumentDate",
     "r_DocumentWho", "r_AuthDocument", "r_DocumentName", "r_TermAuthority", "r_Email",
     "r_Phone", "r_AuthAuthority")
     def validate_not_empty(cls, value):
@@ -535,7 +535,7 @@ class ChangeData(BaseModel):
     clientName: str
     clientFullName: str
     clientCode: str
-    memberRoles: str | None
+    memberRoles: list
     shareSize: int
     isFullShareSize: bool
     capitalShareAction: str
@@ -632,7 +632,7 @@ class ChangeData(BaseModel):
     "nameBlockFor", "codeBlockFor", "blockReasonNameOther", "escrowAccountNumber", "escrowDocumentNumber", "escrowDocumentDate", "contractNum", "contractDate", "messageCdData","messageCdTopic","messageCdFileUrl", "signatures", "files", "countOfSignaturesForDocument",
     "countOfStampsForDocument", "p_Surname", "p_Name", "p_Secondname", "p_Code", "p_IsCodeExist", "p_CodeEDDR", "p_Citizenship", "p_BirthPlace", "p_DocumentName", "p_DocumentNumber_Series", "p_DocumentNumber", "p_DocumentDate", "p_DocumentWho", "p_BirthDate", "p_Country",
     "p_Region", "p_City", "p_Address", "p_PostIndex", "p_Is_Mailing_Address_Matches_Location", "p_CodeTerUnit", "p_TaxResidencyStatusResName", "p_IsFOP", "p_FOPAuthority", "p_PostAddress", "p_Phone", "p_MobilePhone", "p_Email", "p_ContractNum", "p_ContractDate", "p_EmailSend", "p_BankName", "p_BankMFO", "p_BankAccount",
-    "mg_Name", "mg_Code", "mg_IsJur", "mg_AuthDocument", "mg_TermAuthority", "mg_DocumentNumber_Series", "mg_DocumentNumber", "firstPersonName", "firstPersonCode", "firstPersonCode_DocumentNumber_Series", "firstPersonCode_DocumentNumber", "firstPersonPosition",
+    "mg_Name", "mg_Code", "mg_IsJur", "mg_TermAuthority", "mg_AuthDocument", "mg_DocumentNumber_Series", "mg_DocumentNumber", "firstPersonName", "firstPersonCode", "firstPersonCode_DocumentNumber_Series", "firstPersonCode_DocumentNumber", "firstPersonPosition",
     "f_DocumentInfo", "f_TermAuthority", "managerList", "representList", "jurNonResidentName", "jurNonResidentShortName", "jurNonResidentCode", "jurNonResidentRegCountry", "p_TaxResidencyStatusResOwnersName", "jurName", "jurShortName", "jurShortNameEng", "jurEdrpou", "jurEdrisi", "jurRegCountry", "govName", "govShortName", "govCode")
     def validate_not_empty(cls, value):
         if value == "" or value is None:

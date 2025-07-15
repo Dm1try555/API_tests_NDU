@@ -9,36 +9,6 @@ fake = Faker()
 
 
 
-# class Payloads:
-#     @staticmethod
-#     def create_user():
-#         unique_login = f"{fake.user_name()}_{uuid.uuid4().hex[:8]}"
-#         return {
-#             "password": fake.password(special_chars=True, digits=True, upper_case=True, lower_case=True),  # length=14
-#             "login": unique_login,
-#             "firstName": fake.first_name(),
-#             "middleName": fake.first_name(),
-#             "lastName": fake.last_name(),
-#             "identityNumber": "1234567890"
-#         }
-
-
-
-# @pytest.fixture(scope="function")
-# def create_user():
-#     with allure.step("Create a new user"):
-#         api_user = UserAPI()
-
-#         api_user.payloads.create_user = Payloads.create_user()
-
-#         model = api_user.create_user()
-#         assert model.message == "Користувача зареєстровано."
-#         user_id = model.data.id
-#         print(f"Created user ID: {user_id}")
-
-#     yield user_id
-
-
 @allure.epic("User")
 @allure.feature("User")
 class TestUser:
